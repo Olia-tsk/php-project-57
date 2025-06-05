@@ -1,12 +1,10 @@
 ### Hexlet tests and linter status:
 
 [![Actions Status](https://github.com/Olia-tsk/php-project-57/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Olia-tsk/php-project-57/actions)
-
+[![make-lint](https://github.com/Olia-tsk/php-project-57/actions/workflows/make-lint.yml/badge.svg)](https://github.com/Olia-tsk/php-project-57/actions/workflows/make-lint.yml)
 [![Maintainability](https://qlty.sh/badges/e3068e15-c8f9-4966-888e-f495ca410024/maintainability.svg)](https://qlty.sh/gh/Olia-tsk/projects/php-project-57)
 
-[![make-lint](https://github.com/Olia-tsk/php-project-57/actions/workflows/make-lint.yml/badge.svg)](https://github.com/Olia-tsk/php-project-57/actions/workflows/make-lint.yml)
-
-![Static Badge](https://img.shields.io/badge/enabled-3FC658?style=flat&label=rollbar)
+![Static Badge](https://img.shields.io/badge/enabled-3FC658?style=flat&label=rollbar&link=https%3A%2F%2Frollbar.com%2F)
 
 ## Проект модуля #4 Менеджер задач
 
