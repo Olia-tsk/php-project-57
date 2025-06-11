@@ -10,14 +10,29 @@
                     </a>
 
                     <div class="flex items-center lg:order-2">
-                        <a href="{{ route('login') }}"
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            @lang('app.login')
-                        </a>
-                        <a href="{{ route('register') }}"
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">
-                            @lang('app.registration')
-                        </a>
+                        @if (Route::has('login'))
+                            @auth
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <x-dropdown-link :href="route('logout')"
+                                        onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                        @lang('app.logout')
+                                    </x-dropdown-link>
+                                </form>
+                            @else
+                                <a href="{{ route('login') }}"
+                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    @lang('app.login')
+                                </a>
+                                @if (Route::has('register'))
+                                    <a href="{{ route('register') }}"
+                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">
+                                        @lang('app.registration')
+                                    </a>
+                                @endif
+                            @endauth
+                        @endif
                     </div>
 
                     <div class="items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1">
