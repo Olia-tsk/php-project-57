@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        font-family: Nunito, ui-sans-serif, system-ui, sans-serif,
+            "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol,
+            "Noto Color Emoji";
+    }
+}
+
+.font-sans {
+    font-family: Nunito, ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol,
+        "Noto Color Emoji";
+}
+
+h2 {
+    font-size: 2rem;
+}
