@@ -5,7 +5,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index');
-});
+})->name('/');
+
+Route::get('tasks', function () {
+    return view('index');
+})->name('tasks');
+
+Route::get('task_statuses', function () {
+    return view('index');
+})->name('statuses');
+
+Route::get('labels', function () {
+    return view('index');
+})->name('labels');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
