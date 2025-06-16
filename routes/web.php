@@ -8,15 +8,15 @@ Route::get('/', function () {
 })->name('/');
 
 Route::get('tasks', function () {
-    return view('index');
+    return view('pages.tasks');
 })->name('tasks');
 
 Route::get('task_statuses', function () {
-    return view('index');
+    return view('pages.statuses');
 })->name('statuses');
 
 Route::get('labels', function () {
-    return view('index');
+    return view('pages.labels');
 })->name('labels');
 
 Route::get('/dashboard', function () {
