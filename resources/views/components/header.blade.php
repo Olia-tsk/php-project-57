@@ -35,28 +35,22 @@
             <div class="items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1">
                 <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                     <li>
-                        {{-- blade-formatter-disable --}}
                         <a href="{{ route('tasks') }}"
-                            class="block py-2 pl-3 pr-4 text-gray-700 hover:text-blue-700 lg:p-0 @current('tasks') text-blue-700 @endcurrent">
+                            class="block py-2 pl-3 pr-4 hover:text-blue-700 lg:p-0 @ifCurrent('tasks') text-blue-700 @else text-gray-700 @endifCurrent">
                             @lang('app.tasks')
                         </a>
-                        {{-- blade-formatter-enable --}}
                     </li>
                     <li>
-                        {{-- blade-formatter-disable --}}
                         <a href="{{ route('statuses') }}"
-                            class="block py-2 pl-3 pr-4 text-gray-700 hover:text-blue-700 lg:p-0 @current('statuses') text-blue-700 @endcurrent">
+                            class="block py-2 pl-3 pr-4 hover:text-blue-700 lg:p-0 @ifCurrent('statuses') text-blue-700 @else text-gray-700 @endifCurrent">
                             @lang('app.statuses')
                         </a>
-                        {{-- blade-formatter-enable --}}
                     </li>
                     <li>
-                        {{-- blade-formatter-disable --}}
                         <a href="{{ route('labels') }}"
-                        class="block py-2 pl-3 pr-4 text-gray-700 hover:text-blue-700 lg:p-0 @current('labels') text-blue-700 @endcurrent">
-                        @lang('app.labels')
+                            class="block py-2 pl-3 pr-4 hover:text-blue-700 lg:p-0 @ifCurrent('labels') text-blue-700 @else text-gray-700 @endifCurrent">
+                            @lang('app.labels')
                         </a>
-                        {{-- blade-formatter-enable --}}
                     </li>
                 </ul>
             </div>
