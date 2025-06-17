@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TaskStatusController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -11,9 +12,7 @@ Route::get('tasks', function () {
     return view('pages.tasks');
 })->name('tasks');
 
-Route::get('task_statuses', function () {
-    return view('pages.statuses');
-})->name('statuses');
+Route::resource('task_statuses', TaskStatusController::class);
 
 Route::get('labels', function () {
     return view('pages.labels');
