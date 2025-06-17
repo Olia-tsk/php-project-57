@@ -6,7 +6,8 @@
 
                 @auth
                     <div>
-                        <a href="#" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="{{ route('task_statuses.create') }}"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             @lang('app.pages.createStatus')
                         </a>
                     </div>
@@ -31,11 +32,13 @@
                                 <td>{{ $status->created_at }}</td>
                                 @auth
                                     <td>
-                                        <a data-confirm="@lang('app.pages.confirm')" data-method="delete"
-                                            class="text-red-600 hover:text-red-900" href="#">
+                                        <a data-confirm="@lang('app.pages.confirm')" data-method="delete" rel="nofollow"
+                                            class="text-red-600 hover:text-red-900"
+                                            href="{{ route('task_statuses.destroy', $status) }}">
                                             @lang('app.pages.delete')
                                         </a>
-                                        <a class="text-blue-600 hover:text-blue-900" href="#">
+                                        <a class="text-blue-600 hover:text-blue-900"
+                                            href="{{ route('task_statuses.edit', $status) }}">
                                             @lang('app.pages.edit')
                                         </a>
                                     </td>
