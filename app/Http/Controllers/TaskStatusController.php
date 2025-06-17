@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TaskStatus;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
 class TaskStatusController extends Controller
@@ -21,7 +22,8 @@ class TaskStatusController extends Controller
      */
     public function create()
     {
-        //
+        $status = new TaskStatus();
+        return view('statuses.create', compact('status'));
     }
 
     /**
@@ -35,7 +37,7 @@ class TaskStatusController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(TaskStatus $status)
     {
         //
     }
@@ -43,24 +45,35 @@ class TaskStatusController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(TaskStatus $status)
     {
-        //
+        $status = TaskStatus::findOrFail($status);
+        return view('statuses.edit', compact('status'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, TaskStatus $status)
     {
-        //
+        $data = $request->validated();
+
+        $status->fill($data);
+        $status->save();
+
+        Session::flash('flash_message', 'Article successfully updated');
+
+        return redirect()->route('task_statuses.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(TaskStatus $status)
     {
-        //
+        if ($status) {
+            $status->delete();
+        }
+        return redirect()->route('task_statuses.index');
     }
 }
