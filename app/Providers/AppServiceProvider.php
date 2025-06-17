@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Blade::if('current', function ($routeName) {
+        Blade::if('ifCurrent', function ($routeName) {
             return request()->routeIs($routeName);
         });
     }
