@@ -1,0 +1,28 @@
+<x-app-layout>
+    <section class="bg-white dark:bg-gray-900">
+        <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
+            <div class="grid col-span-full">
+                <h1 class="mb-5">@lang('app.pages.updateStatus')</h1>
+
+                {{ html()->modelForm($taskStatus, 'PATCH', route('task_statuses.update', $taskStatus))->class('w-50')->open() }}
+
+                {{ html()->div()->class('flex flex-col')->open() }}
+                <div>
+                    {{ html()->label(__('app.pages.name'), 'name') }}
+                </div>
+                <div class="mt-2">
+                    {{ html()->text('name')->class('rounded border-gray-300 w-1/3')->classIf($errors->has('name'), 'border-rose-600') }}
+                    @if ($errors->has('name'))
+                        <p class="text-rose-600">{{ $errors->first('name') }}</p>
+                    @endif
+                </div>
+                <div class="mt-2">
+                    {{ html()->submit(__('app.pages.update'))->class('blue-button') }}
+                </div>
+                {{ html()->div()->close() }}
+
+                {{ html()->closeModelForm() }}
+            </div>
+        </div>
+    </section>
+</x-app-layout>
