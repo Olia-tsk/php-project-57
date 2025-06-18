@@ -18,13 +18,11 @@
                             </x-dropdown-link>
                         </form>
                     @else
-                        <a href="{{ route('login') }}"
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="{{ route('login') }}" class="blue-button">
                             @lang('app.login')
                         </a>
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}"
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">
+                            <a href="{{ route('register') }}" class="blue-button ml-2">
                                 @lang('app.registration')
                             </a>
                         @endif
@@ -36,22 +34,19 @@
                 <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                     <li>
                         <a href="{{ route('tasks') }}"
-                            class="block py-2 pl-3 pr-4 hover:text-blue-700 lg:p-0
-                            @ifCurrent('tasks') text-blue-700 @else text-gray-700 @endifCurrent">
+                            class="nav-menu-item @ifCurrent('tasks') text-blue-700 @else text-gray-700 @endifCurrent">
                             @lang('app.tasks')
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('task_statuses.index') }}"
-                            class="block py-2 pl-3 pr-4 hover:text-blue-700 lg:p-0
-                            @ifCurrent('task_statuses.index') text-blue-700 @else text-gray-700 @endifCurrent">
+                            class="nav-menu-item @ifCurrent('task_statuses.index') text-blue-700 @else text-gray-700 @endifCurrent">
                             @lang('app.statuses')
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('labels') }}"
-                            class="block py-2 pl-3 pr-4 hover:text-blue-700 lg:p-0
-                            @ifCurrent('labels') text-blue-700 @else text-gray-700 @endifCurrent">
+                            class="nav-menu-item @ifCurrent('labels') text-blue-700 @else text-gray-700 @endifCurrent">
                             @lang('app.labels')
                         </a>
                     </li>
