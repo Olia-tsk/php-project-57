@@ -8,72 +8,65 @@ use Illuminate\Http\Request;
 
 class TaskStatusController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $statuses = TaskStatus::orderBy('created_at', 'desc')->get();
-        return view('statuses.index', compact('statuses'));
+        $taskStatuses = TaskStatus::orderBy('created_at', 'asc')->get();
+        return view('statuses.index', compact('taskStatuses'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $status = new TaskStatus();
-        return view('statuses.create', compact('status'));
+        $taskStatus = new TaskStatus();
+        return view('statuses.create', compact('taskStatus'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-    }
+        $data = $request->validate([
+            'name' => 'required|unique:task_statuses',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(TaskStatus $status)
-    {
-        //
-    }
+        $taskStatus = new TaskStatus();
+        $taskStatus->fill($data);
+        $taskStatus->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(TaskStatus $status)
-    {
-        $status = TaskStatus::findOrFail($status);
-        return view('statuses.edit', compact('status'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, TaskStatus $status)
-    {
-        $data = $request->validated();
-
-        $status->fill($data);
-        $status->save();
-
-        Session::flash('flash_message', 'Article successfully updated');
+        Session::flash('flash_message', __('app.flash.status.created'));
 
         return redirect()->route('task_statuses.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(TaskStatus $status)
+    public function show(TaskStatus $taskStatus)
     {
-        if ($status) {
-            $status->delete();
+        //
+    }
+
+    public function edit(TaskStatus $taskStatus)
+    {
+        return view('statuses.edit', compact('taskStatus'));
+    }
+
+    public function update(Request $request, TaskStatus $taskStatus)
+    {
+        $data = $request->validate([
+            'name' => 'required|unique:task_statuses',
+        ]);
+
+        $taskStatus->fill($data);
+        $taskStatus->save();
+
+        Session::flash('flash_message', __('app.flash.status.updated'));
+
+        return redirect()->route('task_statuses.index');
+    }
+
+    public function destroy(TaskStatus $taskStatus)
+    {
+        if ($taskStatus) {
+            $taskStatus->delete();
         }
+
+        Session::flash('flash_message', __('app.flash.status.deleted'));
+
         return redirect()->route('task_statuses.index');
     }
 }
