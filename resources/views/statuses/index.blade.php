@@ -7,13 +7,13 @@
 
                 <h1 class="mb-5">@lang('app.pages.statuses')</h1>
 
-                @auth
+                @can('create', App\Models\TaskStatus::class)
                     <div>
                         <a href="{{ route('task_statuses.create') }}" class="blue-button">
                             @lang('app.pages.createStatus')
                         </a>
                     </div>
-                @endauth
+                @endcan
 
                 <table class="mt-4">
                     <thead class="border-b-2 border-solid border-black text-left">
@@ -21,9 +21,9 @@
                             <th>ID</th>
                             <th>@lang('app.pages.name')</th>
                             <th>@lang('app.pages.createdDate')</th>
-                            @auth
+                            @can('create', App\Models\TaskStatus::class)
                                 <th>@lang('app.pages.actions')</th>
-                            @endauth
+                            @endcan
                         </tr>
                     </thead>
                     <tbody>
@@ -32,19 +32,21 @@
                                 <td>{{ $taskStatus->id }}</td>
                                 <td>{{ $taskStatus->name }}</td>
                                 <td>{{ $taskStatus->created_at }}</td>
-                                @auth
-                                    <td>
+                                <td>
+                                    @can('delete', $taskStatus)
                                         <a data-confirm="@lang('app.pages.confirm')" data-method="delete" rel="nofollow"
                                             class="text-red-600 hover:text-red-900"
                                             href="{{ route('task_statuses.destroy', $taskStatus) }}">
                                             @lang('app.pages.delete')
                                         </a>
+                                    @endcan
+                                    @can('update', $taskStatus)
                                         <a class="text-blue-600 hover:text-blue-900"
                                             href="{{ route('task_statuses.edit', $taskStatus) }}">
                                             @lang('app.pages.edit')
                                         </a>
-                                    </td>
-                                @endauth
+                                    @endcan
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
