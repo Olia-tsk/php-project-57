@@ -5,6 +5,8 @@
 
                 <x-notification></x-notification>
 
+                <h1 class="mb-5">@lang('app.pages.statuses')</h1>
+
                 @auth
                     <div>
                         <a href="{{ route('task_statuses.create') }}" class="blue-button">
