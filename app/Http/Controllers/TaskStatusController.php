@@ -11,7 +11,8 @@ class TaskStatusController extends Controller
     public function index()
     {
         $taskStatuses = TaskStatus::orderBy('created_at', 'asc')->get();
-        return view('statuses.index', compact('taskStatuses'));
+        $taskStatusModel = new TaskStatus();
+        return view('statuses.index', compact('taskStatuses', 'taskStatusModel'));
     }
 
     public function create()

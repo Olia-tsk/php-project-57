@@ -7,7 +7,7 @@
 
                 <h1 class="mb-5">@lang('app.pages.statuses')</h1>
 
-                @can('create', App\Models\TaskStatus::class)
+                @can('create', $taskStatusModel)
                     <div>
                         <a href="{{ route('task_statuses.create') }}" class="blue-button">
                             @lang('app.pages.createStatus')
@@ -21,7 +21,7 @@
                             <th>ID</th>
                             <th>@lang('app.pages.name')</th>
                             <th>@lang('app.pages.createdDate')</th>
-                            @can('create', App\Models\TaskStatus::class)
+                            @can('create', $taskStatusModel)
                                 <th>@lang('app.pages.actions')</th>
                             @endcan
                         </tr>
