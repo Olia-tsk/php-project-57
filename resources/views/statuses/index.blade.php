@@ -24,20 +24,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($statuses as $status)
+                        @foreach ($taskStatuses as $taskStatus)
                             <tr class="border-b border-dashed text-left">
-                                <td>{{ $status->id }}</td>
-                                <td>{{ $status->name }}</td>
-                                <td>{{ $status->created_at }}</td>
+                                <td>{{ $taskStatus->id }}</td>
+                                <td>{{ $taskStatus->name }}</td>
+                                <td>{{ $taskStatus->created_at }}</td>
                                 @auth
                                     <td>
                                         <a data-confirm="@lang('app.pages.confirm')" data-method="delete" rel="nofollow"
                                             class="text-red-600 hover:text-red-900"
-                                            href="{{ route('task_statuses.destroy', $status) }}">
+                                            href="{{ route('task_statuses.destroy', $taskStatus) }}">
                                             @lang('app.pages.delete')
                                         </a>
                                         <a class="text-blue-600 hover:text-blue-900"
-                                            href="{{ route('task_statuses.edit', $status) }}">
+                                            href="{{ route('task_statuses.edit', $taskStatus) }}">
                                             @lang('app.pages.edit')
                                         </a>
                                     </td>
