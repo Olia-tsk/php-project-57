@@ -32,21 +32,19 @@
                                 <td>{{ $taskStatus->id }}</td>
                                 <td>{{ $taskStatus->name }}</td>
                                 <td>{{ $taskStatus->created_at }}</td>
-                                <td>
-                                    @can('delete', $taskStatus)
+                                @can(['delete', 'update'], $taskStatus)
+                                    <td>
                                         <a data-confirm="@lang('app.pages.confirm')" data-method="delete" rel="nofollow"
                                             class="text-red-600 hover:text-red-900"
                                             href="{{ route('task_statuses.destroy', $taskStatus) }}">
                                             @lang('app.pages.delete')
                                         </a>
-                                    @endcan
-                                    @can('update', $taskStatus)
                                         <a class="text-blue-600 hover:text-blue-900"
                                             href="{{ route('task_statuses.edit', $taskStatus) }}">
                                             @lang('app.pages.edit')
                                         </a>
-                                    @endcan
-                                </td>
+                                    </td>
+                                @endcan
                             </tr>
                         @endforeach
                     </tbody>
