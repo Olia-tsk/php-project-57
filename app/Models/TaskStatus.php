@@ -16,4 +16,9 @@ class TaskStatus extends Model
     {
         return $date ? Carbon::parse($date)->format('d.m.Y') : '';
     }
+
+    public static function getStatuses()
+    {
+        return self::pluck('name', 'id')->toArray();
+    }
 }
