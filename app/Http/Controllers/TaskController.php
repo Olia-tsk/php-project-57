@@ -13,7 +13,7 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::with('status')->orderBy('id', 'asc')->get();
+        $tasks = Task::with('status')->orderBy('id', 'asc')->paginate(15);
         $taskModel = new Task();
         return view('tasks.index', compact('tasks', 'taskModel'));
     }
