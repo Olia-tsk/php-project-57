@@ -31,4 +31,10 @@ h2 {
     .nav-menu-item {
         @apply block py-2 pl-3 pr-4 hover:text-blue-700 lg:p-0;
     }
+    .label-wrapper {
+        @apply text-xs inline-flex items-center font-bold uppercase px-3 py-1 bg-blue-200 text-blue-700 rounded-full;
+    }
+    .form-field {
+        @apply rounded border-gray-300 w-1/3;
+    }
 }
