@@ -2,6 +2,9 @@
     <section class="bg-white dark:bg-gray-900">
         <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
             <div class="grid col-span-full">
+
+                <x-notification></x-notification>
+
                 <h1 class="mb-5">@lang('app.pages.tasks')</h1>
 
                 <div class="w-full flex items-center">
@@ -29,23 +32,20 @@
                                     <option value="2">Самсонова Фаина Максимовна</option>
                                     <option value="3">Стрелкова Любовь Романовна</option>
                                 </select>
-                                <button
-                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2"
-                                    type="submit">
+                                <button class="blue-button ml-2" type="submit">
                                     @lang('app.pages.apply')
                                 </button>
                             </div>
                         </form>
                     </div>
 
-                    @auth
+                    @can('create', $taskModel)
                         <div class="ml-auto">
-                            <a href="#"
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">
+                            <a href="{{ route('tasks.create') }}" class="blue-button">
                                 @lang('app.pages.createTask')
                             </a>
                         </div>
-                    @endauth
+                    @endcan
                 </div>
 
                 <table class="mt-4">
@@ -57,50 +57,42 @@
                             <th>@lang('app.pages.author')</th>
                             <th>@lang('app.pages.executor')</th>
                             <th>@lang('app.pages.createdDate')</th>
-                            @auth
+                            @canany(['update', 'delete'], $taskModel)
                                 <th>@lang('app.pages.actions')</th>
-                            @endauth
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="border-b border-dashed text-left">
-                            <td>1</td>
-                            <td>завершена</td>
-                            <td>
-                                <a class="text-blue-600 hover:text-blue-900" href="#">
-                                    Исправить ошибку в какой-нибудь строке
-                                </a>
-                            </td>
-                            <td>Людмила Владимировна Архипова</td>
-                            <td>Пономарёва Рада Фёдоровна</td>
-                            <td>16.06.2025</td>
-                            @auth
+                        @foreach ($tasks as $task)
+                            <tr class="border-b border-dashed text-left">
+                                <td>{{ $task->id }}</td>
+                                <td>{{ $task->status->name }}</td>
                                 <td>
-                                    <a href="#" class="text-blue-600 hover:text-blue-900">
-                                        @lang('app.pages.edit')
+                                    <a class="text-blue-600 hover:text-blue-900"
+                                        href="{{ route('tasks.show', $task) }}">
+                                        {{ $task->name }}
                                     </a>
                                 </td>
-                            @endauth
-                        </tr>
-                        <tr class="border-b border-dashed text-left">
-                            <td>2</td>
-                            <td>завершена</td>
-                            <td>
-                                <a class="text-blue-600 hover:text-blue-900" href="#">
-                                    Допилить дизайн главной страницы
-                                </a>
-                            </td>
-                            <td>Фадеева Майя Андреевна</td>
-                            <td>Фадеева Майя Андреевна</td>
-                            <td>16.06.2025</td>
-                            @auth
+                                <td>{{ $task->createdBy->name }}</td>
+                                <td>{{ $task->assigned_to_id ? $task->assignedTo->name : 'Не указан' }}</td>
+                                <td>{{ $task->created_at }}</td>
                                 <td>
-                                    <a href="#" class="text-blue-600 hover:text-blue-900">
-                                        @lang('app.pages.edit')
-                                    </a>
+                                    @can('delete', $task)
+                                        <a data-confirm="@lang('app.pages.confirm')" data-method="delete" rel="nofollow"
+                                            class="text-red-600 hover:text-red-900"
+                                            href="{{ route('tasks.destroy', $task) }}">
+                                            @lang('app.pages.delete')
+                                        </a>
+                                    @endcan
+                                    @can('update', $task)
+                                        <a href="{{ route('tasks.edit', $task) }}"
+                                            class="text-blue-600 hover:text-blue-900">
+                                            @lang('app.pages.edit')
+                                        </a>
+                                    @endcan
                                 </td>
-                            @endauth
-                        </tr>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
 
@@ -112,7 +104,7 @@
                                 « Previous
                             </span>
 
-                            <a href="https://php-task-manager-ru.hexlet.app/tasks?page=2"
+                            <a href="#"
                                 class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:focus:border-blue-700 dark:active:bg-gray-700 dark:active:text-gray-300">
                                 Next »
                             </a>
