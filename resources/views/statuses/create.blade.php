@@ -11,7 +11,7 @@
                     {{ html()->label(__('app.pages.name'), 'name') }}
                 </div>
                 <div class="mt-2">
-                    {{ html()->text('name')->class('rounded border-gray-300 w-1/3')->classIf($errors->has('name'), 'border-rose-600') }}
+                    {{ html()->text('name')->class('form-field')->classIf($errors->has('name'), 'border-rose-600') }}
                     @if ($errors->has('name'))
                         <p class="text-rose-600">{{ $errors->first('name') }}</p>
                     @endif
