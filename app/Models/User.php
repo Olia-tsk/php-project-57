@@ -23,4 +23,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public static function getUsers()
+    {
+        return self::pluck('name', 'id')->toArray();
+    }
 }
