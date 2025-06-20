@@ -20,6 +20,10 @@ class TaskController extends Controller
 
     public function create()
     {
+        if (!Auth::check()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $task = new Task();
         $users = User::getUsers();
         $statuses = TaskStatus::getStatuses();
@@ -52,6 +56,10 @@ class TaskController extends Controller
 
     public function edit(Task $task)
     {
+        if (!Auth::check()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $users = User::getUsers();
         $statuses = TaskStatus::getStatuses();
         return view('tasks.edit', compact('task', 'statuses', 'users'));
@@ -76,10 +84,11 @@ class TaskController extends Controller
 
     public function destroy(Task $task)
     {
-        if ($task) {
-            $task->delete();
+        if (!Auth::check() || $task->created_by_id != Auth::id()) {
+            abort(403, 'Unauthorized action.');
         }
 
+        $task->delete();
         Session::flash('flash_message', __('app.flash.task.deleted'));
 
         return redirect()->route('tasks.index');
