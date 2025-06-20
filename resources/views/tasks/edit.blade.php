@@ -2,7 +2,7 @@
     <section class="bg-white dark:bg-gray-900">
         <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
             <div class="grid col-span-full">
-                <h1 class="mb-5">Изменение задачи</h1>
+                <h1 class="mb-5">@lang('app.pages.updateTask')</h1>
 
                 {{ html()->modelForm($task, 'PATCH', route('tasks.update', $task))->class('w-50')->open() }}
 
@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="mt-2">
-                    {{ html()->label('Описание', 'description') }}
+                    {{ html()->label(__('app.pages.description'), 'description') }}
                 </div>
                 <div>
                     {{ html()->textarea('description')->class('form-field h-32')->classIf($errors->has('description'), 'border-rose-600') }}
@@ -28,7 +28,7 @@
                 </div>
 
                 <div class="mt-2">
-                    {{ html()->label('Статус', 'status_id') }}
+                    {{ html()->label(__('app.pages.status'), 'status_id') }}
                 </div>
                 <div>
                     {{ html()->select('status_id')->options(['' => ''] + $statuses)->value(old('status_id', $task->status_id))->class('form-field')->classIf($errors->has('status_id'), 'border-rose-600') }}
@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="mt-2">
-                    {{ html()->label('Исполнитель', 'assigned_to_id') }}
+                    {{ html()->label(__('app.pages.executor'), 'assigned_to_id') }}
                 </div>
                 <div>
                     {{ html()->select('assigned_to_id')->options(['' => ''] + $users)->value(old('assigned_to_id', $task->assigned_to_id))->class('form-field')->classIf($errors->has('assigned_to_id'), 'border-rose-600') }}
@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="mt-2">
-                    {{ html()->label('Метки', 'labels[]') }}
+                    {{ html()->label(__('app.pages.labels'), 'labels[]') }}
                 </div>
                 <div>
                     {{ html()->multiselect('labels[]')->options(['' => ''])->class('form-field h-32')->classIf($errors->has('labels[]'), 'border-rose-600') }}

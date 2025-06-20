@@ -74,7 +74,9 @@
                                     </a>
                                 </td>
                                 <td>{{ $task->createdBy->name }}</td>
-                                <td>{{ $task->assigned_to_id ? $task->assignedTo->name : 'Не указан' }}</td>
+                                <td>
+                                    {{ $task->assigned_to_id ? $task->assignedTo->name : __('app.pages.executorNotSpecified') }}
+                                </td>
                                 <td>{{ $task->created_at }}</td>
                                 <td>
                                     @can('delete', $task)

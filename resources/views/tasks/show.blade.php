@@ -3,21 +3,22 @@
         <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
             <div class="grid col-span-full">
                 <h2 class="mb-5">
-                    Просмотр задачи: {{ $task->name }}
+                    @lang('app.pages.taskShow'): {{ $task->name }}
                     @can('update', $task)
                         <a href="{{ route('tasks.edit', $task) }}">⚙</a>
                     @endcan
                 </h2>
+
                 <p>
-                    <span class="font-black">Имя:</span> {{ $task->name }}
+                    <span class="font-black">@lang('app.pages.taskName'):</span> {{ $task->name }}
                 </p>
                 <p>
-                    <span class="font-black">Статус:</span> {{ $task->status->name }}
+                    <span class="font-black">@lang('app.pages.status'):</span> {{ $task->status->name }}
                 </p>
                 <p>
-                    <span class="font-black">Описание:</span> {{ $task->description }}
+                    <span class="font-black">@lang('app.pages.description'):</span> {{ $task->description }}
                 </p>
-                <p><span class="font-black">Метки:</span></p>
+                <p><span class="font-black">@lang('app.pages.labels'):</span></p>
 
                 <div>
                     <div class="label-wrapper">
