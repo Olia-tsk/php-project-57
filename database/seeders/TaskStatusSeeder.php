@@ -9,8 +9,6 @@ class TaskStatusSeeder extends Seeder
 {
     public function run(): void
     {
-        foreach (TaskStatus::STATUSES as $status) {
-            TaskStatus::firstOrCreate(['name' => $status]);
-        }
+        TaskStatus::factory()->predefined()->count(4)->create();
     }
 }
