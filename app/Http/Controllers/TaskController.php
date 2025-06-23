@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Label;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
@@ -27,22 +28,28 @@ class TaskController extends Controller
         $task = new Task();
         $users = User::getUsers();
         $statuses = TaskStatus::getStatuses();
-        return view('tasks.create', compact('task', 'users', 'statuses'));
+        $labels = Label::getLabels();
+        return view('tasks.create', compact('task', 'users', 'statuses', 'labels'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
             'name' => 'required',
-            'description' => '',
+            'description' => 'nullable',
             'status_id' => 'required',
-            'assigned_to_id' => ''
+            'assigned_to_id' => 'nullable',
+            'labels' => 'nullable',
         ]);
         $data['created_by_id'] = Auth::id();
 
         $task = new Task();
         $task->fill($data);
         $task->save();
+
+        if (!empty($data['labels'])) {
+            $task->labels()->sync($data['labels']);
+        }
 
         Session::flash('flash_message', __('app.flash.task.created'));
 
@@ -51,6 +58,7 @@ class TaskController extends Controller
 
     public function show(Task $task)
     {
+        $task->load('labels');
         return view('tasks.show', compact('task'));
     }
 
@@ -60,22 +68,27 @@ class TaskController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
+        $task->load('labels');
         $users = User::getUsers();
         $statuses = TaskStatus::getStatuses();
-        return view('tasks.edit', compact('task', 'statuses', 'users'));
+        $labels = Label::getLabels();
+        return view('tasks.edit', compact('task', 'statuses', 'users', 'labels'));
     }
 
     public function update(Request $request, Task $task)
     {
         $data = $request->validate([
             'name' => 'required',
-            'description' => '',
+            'description' => 'nullable',
             'status_id' => 'required',
-            'assigned_to_id' => ''
+            'assigned_to_id' => 'nullable',
+            'labels' => 'nullable',
         ]);
 
         $task->fill($data);
         $task->save();
+
+        $task->labels()->sync($data['labels'] ?? []);
 
         Session::flash('flash_message', __('app.flash.task.updated'));
 
