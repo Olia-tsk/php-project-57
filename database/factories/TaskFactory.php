@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Label;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
@@ -14,7 +15,6 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         $status = TaskStatus::inRandomOrder()->first() ?? TaskStatus::factory()->create();
-
         $creator = User::factory()->create();
         $executor = $this->faker->boolean(50) ? User::factory()->create() : null;
 
@@ -27,5 +27,13 @@ class TaskFactory extends Factory
             'created_at' => now(),
             'updated_at' => now(),
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Task $task) {
+            $labels = Label::inRandomOrder()->take($this->faker->numberBetween(0, 4))->pluck('id');
+            $task->labels()->attach($labels);
+        });
     }
 }
