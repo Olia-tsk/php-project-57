@@ -21,4 +21,9 @@ class Label extends Model
     {
         return $date ? Carbon::parse($date)->format('d.m.Y') : '';
     }
+
+    public static function getLabels()
+    {
+        return self::pluck('name', 'id')->toArray();
+    }
 }
