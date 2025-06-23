@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LabelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskStatusController;
@@ -13,9 +14,7 @@ Route::resource('tasks', TaskController::class);
 
 Route::resource('task_statuses', TaskStatusController::class);
 
-Route::get('labels', function () {
-    return view('pages.labels');
-})->name('labels');
+Route::resource('labels', LabelController::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
