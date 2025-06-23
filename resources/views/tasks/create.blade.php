@@ -45,10 +45,7 @@
                     {{ html()->label(__('app.pages.labels'), 'labels[]') }}
                 </div>
                 <div>
-                    {{ html()->multiselect('labels[]')->options(['' => ''])->class('form-field h-32')->classIf($errors->has('labels[]'), 'border-rose-600') }}
-                    @if ($errors->has('labels[]'))
-                        <p class="text-rose-600">{{ $errors->first('labels[]') }}</p>
-                    @endif
+                    {{ html()->multiselect('labels[]')->options($labels)->class('form-field h-32') }}
                 </div>
 
                 <div class="mt-2">
