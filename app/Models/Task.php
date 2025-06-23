@@ -36,4 +36,9 @@ class Task extends Model
     {
         return $this->belongsToMany(Label::class);
     }
+
+    public function getLabelIds()
+    {
+        return $this->labels->pluck('id')->toArray();
+    }
 }
