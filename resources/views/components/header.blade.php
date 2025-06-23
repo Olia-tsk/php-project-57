@@ -45,7 +45,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('labels') }}"
+                        <a href="{{ route('labels.index') }}"
                             class="nav-menu-item @ifCurrent('labels') text-blue-700 @else text-gray-700 @endifCurrent">
                             @lang('app.labels')
                         </a>
