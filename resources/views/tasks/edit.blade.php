@@ -21,10 +21,7 @@
                     {{ html()->label(__('app.pages.description'), 'description') }}
                 </div>
                 <div>
-                    {{ html()->textarea('description')->class('form-field h-32')->classIf($errors->has('description'), 'border-rose-600') }}
-                    @if ($errors->has('description'))
-                        <p class="text-rose-600">{{ $errors->first('name') }}</p>
-                    @endif
+                    {{ html()->textarea('description')->class('form-field h-32') }}
                 </div>
 
                 <div class="mt-2">
@@ -41,20 +38,14 @@
                     {{ html()->label(__('app.pages.executor'), 'assigned_to_id') }}
                 </div>
                 <div>
-                    {{ html()->select('assigned_to_id')->options(['' => ''] + $users)->value(old('assigned_to_id', $task->assigned_to_id))->class('form-field')->classIf($errors->has('assigned_to_id'), 'border-rose-600') }}
-                    @if ($errors->has('assigned_to_id'))
-                        <p class="text-rose-600">{{ $errors->first('name') }}</p>
-                    @endif
+                    {{ html()->select('assigned_to_id')->options(['' => ''] + $users)->value(old('assigned_to_id', $task->assigned_to_id))->class('form-field') }}
                 </div>
 
                 <div class="mt-2">
                     {{ html()->label(__('app.pages.labels'), 'labels[]') }}
                 </div>
                 <div>
-                    {{ html()->multiselect('labels[]')->options(['' => ''])->class('form-field h-32')->classIf($errors->has('labels[]'), 'border-rose-600') }}
-                    @if ($errors->has('labels[]'))
-                        <p class="text-rose-600">{{ $errors->first('name') }}</p>
-                    @endif
+                    {{ html()->multiselect('labels[]')->options($labels)->class('form-field h-32')->value(old('labels', $task->getLabelIds())) }}
                 </div>
 
                 <div class="mt-2">
