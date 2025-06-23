@@ -10,8 +10,6 @@ class TaskStatus extends Model
 {
     use HasFactory;
 
-    public const STATUSES = ['новый', 'в работе', 'на тестировании', 'завершен'];
-
     protected $fillable = ['name'];
 
     public function tasks()
