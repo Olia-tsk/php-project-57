@@ -47,7 +47,6 @@
                                 @endauth
                             </tr>
                         @endforeach
-
                     </tbody>
                 </table>
             </div>

@@ -2,7 +2,7 @@
     <section class="bg-white dark:bg-gray-900">
         <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
             <div class="grid col-span-full">
-                <h1 class="mb-5">Изменение метки</h1>
+                <h1 class="mb-5">@lang('app.pages.updateLabel')</h1>
 
                 {{ html()->modelForm($label, 'PATCH', route('labels.update', $label))->class('w-50')->open() }}
 
@@ -11,6 +11,7 @@
                 <div>
                     {{ html()->label(__('app.pages.name'), 'name') }}
                 </div>
+
                 <div class="mt-2">
                     {{ html()->text('name')->class('form-field')->classIf($errors->has('name'), 'border-rose-600') }}
                     @if ($errors->has('name'))
@@ -21,11 +22,11 @@
                 <div class="mt-2">
                     {{ html()->label(__('app.pages.description'), 'description') }}
                 </div>
+
                 <div class="mt-2">
                     {{ html()->textarea('description')->class('form-field h-32') }}
 
                 </div>
-
 
                 <div class="mt-2">
                     {{ html()->submit(__('app.pages.update'))->class('blue-button') }}

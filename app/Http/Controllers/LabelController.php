@@ -38,7 +38,7 @@ class LabelController extends Controller
         $label->fill($data);
         $label->save();
 
-        Session::flash('flash_message', 'Метка успешно создана');
+        Session::flash('flash_message', __('app.flash.label.created'));
 
         return redirect()->route('labels.index');
     }
@@ -69,7 +69,7 @@ class LabelController extends Controller
 
         $label->update($data);
 
-        Session::flash('flash_message', 'Метка успешно изменена');
+        Session::flash('flash_message', __('app.flash.label.updated'));
 
         return redirect()->route('labels.index');
     }
@@ -77,13 +77,13 @@ class LabelController extends Controller
     public function destroy(Label $label)
     {
         if ($label->tasks()->exists()) {
-            Session::flash('flash_message_error', __('app.flash.status.deleteFailed'));
+            Session::flash('flash_message_error', __('app.flash.label.deleteFailed'));
             return redirect()->route('labels.index');
         }
 
         $label->delete();
 
-        Session::flash('flash_message', __('app.flash.status.deleted'));
+        Session::flash('flash_message', __('app.flash.label.deleted'));
 
         return redirect()->route('labels.index');
     }
