@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TaskStatusStoreRequest;
+use App\Http\Requests\TaskStatusUpdateRequest;
 use App\Models\TaskStatus;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Http\Request;
 
 class TaskStatusController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index()
     {
         $taskStatuses = TaskStatus::orderBy('created_at', 'asc')->get();
@@ -17,15 +21,15 @@ class TaskStatusController extends Controller
 
     public function create()
     {
+        $this->authorize('create', TaskStatus::class);
+
         $taskStatus = new TaskStatus();
         return view('statuses.create', compact('taskStatus'));
     }
 
-    public function store(Request $request)
+    public function store(TaskStatusStoreRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required|unique:task_statuses',
-        ]);
+        $data = $request->validated();
 
         $taskStatus = new TaskStatus();
         $taskStatus->fill($data);
@@ -43,17 +47,16 @@ class TaskStatusController extends Controller
 
     public function edit(TaskStatus $taskStatus)
     {
+        $this->authorize('update', $taskStatus);
+
         return view('statuses.edit', compact('taskStatus'));
     }
 
-    public function update(Request $request, TaskStatus $taskStatus)
+    public function update(TaskStatusUpdateRequest $request, TaskStatus $taskStatus)
     {
-        $data = $request->validate([
-            'name' => 'required|unique:task_statuses',
-        ]);
+        $data = $request->validated();
 
-        $taskStatus->fill($data);
-        $taskStatus->save();
+        $taskStatus->update($data);
 
         Session::flash('flash_message', __('app.flash.status.updated'));
 
@@ -62,6 +65,8 @@ class TaskStatusController extends Controller
 
     public function destroy(TaskStatus $taskStatus)
     {
+        $this->authorize('delete', $taskStatus);
+
         if ($taskStatus->tasks()->exists()) {
             Session::flash('flash_message_error', __('app.flash.status.deleteFailed'));
             return redirect()->route('task_statuses.index');
