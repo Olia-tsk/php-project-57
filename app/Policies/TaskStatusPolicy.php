@@ -4,12 +4,9 @@ namespace App\Policies;
 
 use App\Models\TaskStatus;
 use App\Models\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TaskStatusPolicy
 {
-    use HandlesAuthorization;
-
     public function viewAny(User $user): bool
     {
         return true;
@@ -37,11 +34,11 @@ class TaskStatusPolicy
 
     public function restore(User $user, TaskStatus $taskStatus): bool
     {
-        return $user !== null;
+        return false;
     }
 
     public function forceDelete(User $user, TaskStatus $taskStatus): bool
     {
-        return $user !== null;
+        return false;
     }
 }
