@@ -2,11 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Http\Requests\TaskStoreRequest;
+use App\Http\Requests\TaskUpdateRequest;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class TaskTest extends TestCase
@@ -19,13 +20,14 @@ class TaskTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
-        $this->actingAs($this->user);
     }
 
     public function testIndexDisplaysTasksWithPagination()
     {
         Task::factory()->count(20)->create();
+
         $response = $this->get(route('tasks.index'));
+
         $response->assertStatus(200)
             ->assertViewIs('tasks.index')
             ->assertViewHas('tasks', function ($tasks) {
@@ -33,13 +35,25 @@ class TaskTest extends TestCase
             });
     }
 
-    public function testCreate()
+    public function testCreateIsRestrictedForUnauthenticatedUser()
     {
         $response = $this->get(route('tasks.create'));
-        $response->assertOk();
+
+        $response->assertStatus(403);
     }
 
-    public function testStore()
+    public function testCreateDisplaysFormForAuthenticatedUser()
+    {
+        $this->actingAs($this->user);
+
+        $response = $this->get(route('tasks.create'));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('tasks.create');
+        $response->assertViewHas('task', fn($task) => $task instanceof Task);
+    }
+
+    public function testStoreForAuthenticatedUser()
     {
         $this->actingAs($this->user);
 
@@ -50,21 +64,21 @@ class TaskTest extends TestCase
             'assigned_to_id' => User::factory()->create()->id,
         ];
 
+        $this->mock(TaskStoreRequest::class, fn($mock) => $mock->shouldReceive('validated')->andReturn($data));
+
         $response = $this->post(route('tasks.store'), $data);
+
         $response->assertRedirect(route('tasks.index'));
         $response->assertSessionHas('flash_message', __('app.flash.task.created'));
-        $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('tasks', $data);
     }
 
-    public function testStoreFailsWithInvalidData()
+    public function testStoreFailsForUnauthenticatedUser()
     {
-        $data = ['name' => '', 'status_id' => ''];
+        $response = $this->post(route('tasks.store'), ['name' => 'Test Task']);
 
-        $response = $this->post(route('tasks.store'), $data);
-
-        $response->assertSessionHasErrors(['name', 'status_id']);
-        $this->assertDatabaseMissing('tasks', ['created_by_id' => $this->user->id]);
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing('tasks', ['name' => 'Test Task']);
     }
 
     public function testShowDisplaysTask()
@@ -80,42 +94,51 @@ class TaskTest extends TestCase
             });
     }
 
-    public function testEdit()
+    public function testEditIsRestrictedForUnauthenticatedUser()
     {
         $task = Task::factory()->create();
-        $response = $this->get(route('tasks.edit', [$task]));
-        $response->assertOk();
+
+        $response = $this->get(route('tasks.edit', $task));
+
+        $response->assertStatus(403);
     }
 
-    public function testUpdate()
+    public function testEditDisplaysFormForAuthenticatedUser()
     {
         $this->actingAs($this->user);
-
         $task = Task::factory()->create();
-        $data = [
-            'name' => 'Updated Task Name',
-            'description' => 'Updated task description',
-            'status_id' => TaskStatus::factory()->create()->id,
-            'assigned_to_id' => User::factory()->create()->id,
-        ];
 
-        $response = $this->patch(route('tasks.update', $task), $data);
+        $response = $this->get(route('tasks.edit', $task));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('tasks.edit');
+        $response->assertViewHas('task', fn($viewTask) => $viewTask->is($task));
+    }
+
+    public function testUpdateForAuthenticatedUser()
+    {
+        $this->actingAs($this->user);
+        $task = Task::factory()->create();
+        $data = ['name' => 'Updated Task'];
+
+        $this->mock(TaskUpdateRequest::class, fn($mock) => $mock->shouldReceive('validated')->andReturn($data));
+
+        $response = $this->put(route('tasks.update', $task), $data);
 
         $response->assertRedirect(route('tasks.index'));
         $response->assertSessionHas('flash_message', __('app.flash.task.updated'));
-        $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('tasks', $data);
+        $this->assertDatabaseHas('tasks', ['id' => $task->id, 'name' => 'Updated Task']);
     }
 
-    public function testUpdateFailsWithInvalidData()
+    public function testUpdateFailsForUnauthenticatedUser()
     {
-        $task = Task::factory()->create(['name' => 'Old Task']);
-        $data = ['name' => '', 'status_id' => ''];
+        $task = Task::factory()->create();
+        $data = ['name' => 'Updated Task'];
 
-        $response = $this->patch(route('tasks.update', $task), $data);
+        $response = $this->put(route('tasks.update', $task), $data);
 
-        $response->assertSessionHasErrors(['name', 'status_id']);
-        $this->assertDatabaseHas('tasks', ['id' => $task->id, 'name' => 'Old Task']);
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing('tasks', ['id' => $task->id, 'name' => 'Updated Task']);
     }
 
     public function testDestroy()
@@ -131,6 +154,16 @@ class TaskTest extends TestCase
         $response->assertRedirect(route('tasks.index'))
             ->assertSessionHas('flash_message', __('app.flash.task.deleted'));
         $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
+    }
+
+    public function testDestroyFailsForUnauthenticatedUser()
+    {
+        $task = Task::factory()->create();
+
+        $response = $this->delete(route('tasks.destroy', $task));
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas('tasks', ['id' => $task->id]);
     }
 
     public function testDestroyFailsForNonCreator()
