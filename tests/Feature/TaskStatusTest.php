@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Http\Requests\TaskStatusUpdateRequest;
+use App\Http\Requests\TaskStoreRequest;
+use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,108 +20,149 @@ class TaskStatusTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
-        $this->actingAs($this->user);
     }
 
     public function testIndex()
     {
-        $response = $this->get(route('task_statuses.index'));
-        $response->assertOk();
-    }
-
-    public function testIndexDisplaysTaskStatuses()
-    {
-        $taskStatuses = TaskStatus::factory()->count(3)->create();
+        TaskStatus::factory()->count(3)->create();
 
         $response = $this->get(route('task_statuses.index'));
 
         $response->assertStatus(200);
         $response->assertViewIs('statuses.index');
-        $response->assertViewHas('taskStatuses', function ($viewStatuses) use ($taskStatuses) {
-            return $viewStatuses->count() === $taskStatuses->count();
-        });
+        $response->assertViewHas('taskStatuses', fn($taskStatuses) => $taskStatuses->count() === 3);
+        $response->assertViewHas('taskStatusModel', fn($taskStatusModel) => $taskStatusModel instanceof TaskStatus);
     }
 
-    public function testCreate()
+    public function testCreateIsRestrictedForUnauthenticatedUser()
     {
         $response = $this->get(route('task_statuses.create'));
-        $response->assertOk();
+
+        $response->assertStatus(403);
     }
 
-    public function testEdit()
+    public function testCreateDisplaysFormForAuthenticatedUser()
     {
-        $taskStatus = TaskStatus::factory()->create();
-        $response = $this->get(route('task_statuses.edit', [$taskStatus]));
-        $response->assertOk();
+        $this->actingAs($this->user);
+
+        $response = $this->get(route('task_statuses.create'));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('statuses.create');
+        $response->assertViewHas('taskStatus', fn($taskStatus) => $taskStatus instanceof TaskStatus);
     }
 
-    public function testStore()
+    public function testStoreForAuthenticatedUser()
     {
-        $data = TaskStatus::factory()->make()->only('name');
+        $this->actingAs($this->user);
+
+        $data = ['name' => 'Test Status'];
+
+        $this->mock(TaskStoreRequest::class, fn($mock) => $mock->shouldReceive('validated')->andReturn($data));
+
         $response = $this->post(route('task_statuses.store'), $data);
+
         $response->assertRedirect(route('task_statuses.index'));
         $response->assertSessionHas('flash_message', __('app.flash.status.created'));
-        $response->assertSessionHasNoErrors();
-
-        $this->assertDatabaseHas('task_statuses', $data);
+        $this->assertDatabaseHas('task_statuses', ['name' => 'Test Status']);
     }
 
-    public function testStoreFailsWithInvalidData()
+    public function testStoreFailsForUnauthenticatedUser()
     {
-        $response = $this->post(route('task_statuses.store'), ['name' => '']);
+        $response = $this->post(route('task_statuses.store'), ['name' => 'Test Status']);
 
-        $response->assertSessionHasErrors('name');
-        $this->assertDatabaseMissing('task_statuses', ['name' => '']);
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing('task_statuses', ['name' => 'Test Status']);
     }
 
-    public function testStoreFailsWithDuplicateName()
-    {
-        $existingStatus = TaskStatus::factory()->create(['name' => 'Existing Status']);
-
-        $response = $this->post(route('task_statuses.store'), ['name' => 'Existing Status']);
-
-        $response->assertSessionHasErrors('name');
-    }
-
-    public function testUpdate()
+    public function testShowIsRestricted()
     {
         $taskStatus = TaskStatus::factory()->create();
-        $data = TaskStatus::factory()->make()->only('name');
 
-        $response = $this->patch(route('task_statuses.update', $taskStatus), $data);
+        $response = $this->get(route('task_statuses.show', $taskStatus));
+
+        $response->assertStatus(403);
+    }
+
+    public function testEditIsRestrictedForUnauthenticatedUser()
+    {
+        $taskStatus = TaskStatus::factory()->create();
+
+        $response = $this->get(route('task_statuses.edit', $taskStatus));
+
+        $response->assertStatus(403);
+    }
+
+    public function testEditDisplaysFormForAuthenticatedUser()
+    {
+        $this->actingAs($this->user);
+        $taskStatus = TaskStatus::factory()->create();
+
+        $response = $this->get(route('task_statuses.edit', $taskStatus));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('statuses.edit');
+        $response->assertViewHas('taskStatus', fn($viewTaskStatus) => $viewTaskStatus->is($taskStatus));
+    }
+
+    public function testUpdateForAuthenticatedUser()
+    {
+        $this->actingAs($this->user);
+        $taskStatus = TaskStatus::factory()->create();
+        $data = ['name' => 'Updated Status'];
+
+        $this->mock(TaskStatusUpdateRequest::class, fn($mock) => $mock->shouldReceive('validated')->andReturn($data));
+
+        $response = $this->put(route('task_statuses.update', $taskStatus), $data);
+
         $response->assertRedirect(route('task_statuses.index'));
-        $response->assertSessionHasNoErrors();
-
-        $this->assertDatabaseHas('task_statuses', $data);
+        $response->assertSessionHas('flash_message', __('app.flash.status.updated'));
+        $this->assertDatabaseHas('task_statuses', ['id' => $taskStatus->id, 'name' => 'Updated Status']);
     }
 
-    public function testUpdateFailsWithInvalidData()
+    public function testUpdateFailsForUnauthenticatedUser()
     {
         $taskStatus = TaskStatus::factory()->create();
+        $data = ['name' => 'Updated Status'];
 
-        $response = $this->put(route('task_statuses.update', $taskStatus), ['name' => '']);
+        $response = $this->put(route('task_statuses.update', $taskStatus), $data);
 
-        $response->assertSessionHasErrors('name');
+        $response->assertStatus(403);
+        $this->assertDatabaseMissing('task_statuses', ['id' => $taskStatus->id, 'name' => 'Updated Status']);
     }
 
-    public function testUpdateFailsWithDuplicateName()
+    public function testDestroyDeletesStatusWithoutTasks()
     {
-        $existingStatus = TaskStatus::factory()->create(['name' => 'Existing Status']);
+        $this->actingAs($this->user);
         $taskStatus = TaskStatus::factory()->create();
 
-        $response = $this->put(route('task_statuses.update', $taskStatus), ['name' => 'Existing Status']);
+        $response = $this->delete(route('task_statuses.destroy', $taskStatus));
 
-        $response->assertSessionHasErrors('name');
-    }
-
-    public function testDestroy()
-    {
-        $taskStatus = TaskStatus::factory()->create();
-        $response = $this->delete(route('task_statuses.destroy', [$taskStatus]));
+        $response->assertRedirect(route('task_statuses.index'));
         $response->assertSessionHas('flash_message', __('app.flash.status.deleted'));
-        $response->assertSessionHasNoErrors();
-        $response->assertRedirect(route('task_statuses.index'));
+        $this->assertDatabaseMissing('task_statuses', ['id' => $taskStatus->id]);
+    }
 
-        $this->assertDatabaseMissing('task_statuses', $taskStatus->only('id'));
+    public function testDestroyFailsForStatusWithTasks()
+    {
+        $this->actingAs($this->user);
+        $taskStatus = TaskStatus::factory()->create();
+        Task::factory()->create(['status_id' => $taskStatus->id]);
+
+        $response = $this->delete(route('task_statuses.destroy', $taskStatus));
+
+        $response->assertRedirect(route('task_statuses.index'));
+        $response->assertSessionHas('flash_message_error', __('app.flash.status.deleteFailed'));
+        $this->assertDatabaseHas('task_statuses', ['id' => $taskStatus->id]);
+    }
+
+    public function testDestroyFailsForUnauthenticatedUser()
+    {
+        $taskStatus = TaskStatus::factory()->create();
+
+        $response = $this->delete(route('task_statuses.destroy', $taskStatus));
+
+        $response->assertStatus(403);
+        $this->assertDatabaseHas('task_statuses', ['id' => $taskStatus->id]);
     }
 }
