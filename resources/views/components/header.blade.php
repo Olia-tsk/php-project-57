@@ -34,7 +34,7 @@
                 <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                     <li>
                         <a href="{{ route('tasks.index') }}"
-                            class="nav-menu-item @ifCurrent('tasks') text-blue-700 @else text-gray-700 @endifCurrent">
+                            class="nav-menu-item @ifCurrent('tasks.index') text-blue-700 @else text-gray-700 @endifCurrent">
                             @lang('app.tasks')
                         </a>
                     </li>
@@ -46,7 +46,7 @@
                     </li>
                     <li>
                         <a href="{{ route('labels.index') }}"
-                            class="nav-menu-item @ifCurrent('labels') text-blue-700 @else text-gray-700 @endifCurrent">
+                            class="nav-menu-item @ifCurrent('labels.index') text-blue-700 @else text-gray-700 @endifCurrent">
                             @lang('app.labels')
                         </a>
                     </li>
