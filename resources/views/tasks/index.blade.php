@@ -81,14 +81,12 @@
                                 <td>
                                     @can('delete', $task)
                                         <a data-confirm="@lang('app.pages.confirm')" data-method="delete" rel="nofollow"
-                                            class="text-red-600 hover:text-red-900"
-                                            href="{{ route('tasks.destroy', $task) }}">
+                                            class="delete-link" href="{{ route('tasks.destroy', $task) }}">
                                             @lang('app.pages.delete')
                                         </a>
                                     @endcan
                                     @can('update', $task)
-                                        <a href="{{ route('tasks.edit', $task) }}"
-                                            class="text-blue-600 hover:text-blue-900">
+                                        <a href="{{ route('tasks.edit', $task) }}" class="edit-link">
                                             @lang('app.pages.edit')
                                         </a>
                                     @endcan
