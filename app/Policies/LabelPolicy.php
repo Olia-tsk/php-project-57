@@ -34,11 +34,11 @@ class LabelPolicy
 
     public function restore(User $user, Label $label): bool
     {
-        return $user !== null;
+        return false;
     }
 
     public function forceDelete(User $user, Label $label): bool
     {
-        return $user !== null;
+        return false;
     }
 }
