@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Http\Requests\TaskStatusStoreRequest;
 use App\Http\Requests\TaskStatusUpdateRequest;
-use App\Http\Requests\TaskStoreRequest;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
@@ -58,7 +58,7 @@ class TaskStatusTest extends TestCase
 
         $data = ['name' => 'Test Status'];
 
-        $this->mock(TaskStoreRequest::class, fn($mock) => $mock->shouldReceive('validated')->andReturn($data));
+        $this->mock(TaskStatusStoreRequest::class, fn($mock) => $mock->shouldReceive('validated')->andReturn($data));
 
         $response = $this->post(route('task_statuses.store'), $data);
 
