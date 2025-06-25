@@ -17,7 +17,7 @@ class TaskStatusPolicy
 
     public function view(User $user, TaskStatus $taskStatus): bool
     {
-        return true;
+        return false;
     }
 
     public function create(User $user): bool
