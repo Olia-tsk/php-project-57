@@ -11,6 +11,8 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
@@ -18,9 +20,23 @@ class TaskController extends Controller
 
     public function index()
     {
-        $tasks = Task::with('status')->orderBy('id', 'asc')->paginate(15);
+        $tasks = Task::with('status');
         $taskModel = new Task();
-        return view('tasks.index', compact('tasks', 'taskModel'));
+        $users = User::getUsers();
+        $statuses = TaskStatus::getStatuses();
+
+        $tasks = QueryBuilder::for($tasks)
+            ->allowedFilters([
+                AllowedFilter::exact('status_id')->ignore(null),
+                AllowedFilter::exact('created_by_id')->ignore(null),
+                AllowedFilter::exact('assigned_to_id')->ignore(null),
+            ])
+            ->allowedSorts('id')
+            ->defaultSort('id')
+            ->paginate(15)
+            ->appends(request()->query());
+
+        return view('tasks.index', compact('tasks', 'taskModel', 'users', 'statuses'));
     }
 
     public function create()
