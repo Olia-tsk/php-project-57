@@ -14,7 +14,7 @@ class TaskStatusController extends Controller
 
     public function index()
     {
-        $taskStatuses = TaskStatus::orderBy('created_at', 'asc')->get();
+        $taskStatuses = TaskStatus::orderBy('id', 'asc')->get();
         $taskStatusModel = new TaskStatus();
         return view('statuses.index', compact('taskStatuses', 'taskStatusModel'));
     }
@@ -42,7 +42,7 @@ class TaskStatusController extends Controller
 
     public function show(TaskStatus $taskStatus)
     {
-        //
+        $this->authorize('view', $taskStatus);
     }
 
     public function edit(TaskStatus $taskStatus)
