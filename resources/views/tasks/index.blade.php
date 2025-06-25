@@ -9,34 +9,21 @@
 
                 <div class="w-full flex items-center">
                     <div>
-                        <form method="GET" action="">
-                            <div class="flex">
-                                <select class="rounded border-gray-300" name="filter[status_id]" id="filter[status_id]">
-                                    <option value="" selected="selected">@lang('app.pages.status')</option>
-                                    <option value="1">новая</option>
-                                    <option value="2">завершена</option>
-                                    <option value="3">выполняется</option>
-                                    <option value="4">в архиве</option>
-                                </select>
-                                <select class="rounded border-gray-300" name="filter[created_by_id]"
-                                    id="filter[created_by_id]">
-                                    <option value="" selected="selected">@lang('app.pages.author')</option>
-                                    <option value="1">Рожков Василий Евгеньевич</option>
-                                    <option value="2">Самсонова Фаина Максимовна</option>
-                                    <option value="3">Стрелкова Любовь Романовна</option>
-                                </select>
-                                <select class="rounded border-gray-300" name="filter[assigned_to_id]"
-                                    id="filter[assigned_to_id]">
-                                    <option value="" selected="selected">@lang('app.pages.executor')</option>
-                                    <option value="1">Рожков Василий Евгеньевич</option>
-                                    <option value="2">Самсонова Фаина Максимовна</option>
-                                    <option value="3">Стрелкова Любовь Романовна</option>
-                                </select>
-                                <button class="blue-button ml-2" type="submit">
-                                    @lang('app.pages.apply')
-                                </button>
-                            </div>
-                        </form>
+                        {{ html()->form('GET', route('tasks.index'))->open() }}
+
+                        {{ html()->div()->class('flex')->open() }}
+
+                        {{ html()->select('filter[status_id]')->options(['' => __('app.pages.status')] + $statuses)->value(request()->input('filter.status_id', ''))->class('rounded border-gray-300') }}
+
+                        {{ html()->select('filter[created_by_id]')->options(['' => __('app.pages.author')] + $users)->value(request()->input('filter.created_by_id', ''))->class('rounded border-gray-300') }}
+
+                        {{ html()->select('filter[assigned_to_id]')->options(['' => __('app.pages.executor')] + $users)->value(request()->input('filter.assigned_to_id', ''))->class('rounded border-gray-300') }}
+
+                        {{ html()->submit(__('app.pages.apply'))->class('blue-button ml-2') }}
+
+                        {{ html()->div()->close() }}
+
+                        {{ html()->form()->close() }}
                     </div>
 
                     @can('create', $taskModel)
