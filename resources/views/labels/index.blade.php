@@ -7,13 +7,13 @@
 
                 <h1 class="mb-5">@lang('app.pages.labels')</h1>
 
-                @auth
+                @can('create', $labelModel)
                     <div>
                         <a href="{{ route('labels.create') }}" class="blue-button">
                             @lang('app.pages.createLabel')
                         </a>
                     </div>
-                @endauth
+                @endcan
 
                 <table class="mt-4">
                     <thead class="border-b-2 border-solid border-black text-left">
@@ -22,9 +22,9 @@
                             <th>@lang('app.pages.name')</th>
                             <th>@lang('app.pages.description')</th>
                             <th>@lang('app.pages.createdDate')</th>
-                            @auth
+                            @canany(['update', 'delete'], $labelModel)
                                 <th>@lang('app.pages.actions')</th>
-                            @endauth
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -34,17 +34,20 @@
                                 <td>{{ $label->name }}</td>
                                 <td>{{ $label->description }}</td>
                                 <td>{{ $label->created_at }}</td>
-                                @auth
-                                    <td>
+                                <td>
+                                    @can('delete', $label)
                                         <a data-confirm="@lang('app.pages.confirm')" data-method="delete" class="delete-link"
                                             href="{{ route('labels.destroy', $label) }}">
                                             @lang('app.pages.delete')
                                         </a>
-                                        <a class="edit-link " href="{{ route('labels.edit', $label) }}">
+                                    @endcan
+                                    @can('update', $label)
+                                        <a class="edit-link" href="{{ route('labels.edit', $label) }}">
                                             @lang('app.pages.edit')
                                         </a>
-                                    </td>
-                                @endauth
+                                    @endcan
+                                </td>
+
                             </tr>
                         @endforeach
                     </tbody>
