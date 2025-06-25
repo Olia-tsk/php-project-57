@@ -21,9 +21,9 @@
                             <th>ID</th>
                             <th>@lang('app.pages.name')</th>
                             <th>@lang('app.pages.createdDate')</th>
-                            @can('create', $taskStatusModel)
+                            @canany(['update', 'delete'], $taskStatusModel)
                                 <th>@lang('app.pages.actions')</th>
-                            @endcan
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -32,19 +32,19 @@
                                 <td>{{ $taskStatus->id }}</td>
                                 <td>{{ $taskStatus->name }}</td>
                                 <td>{{ $taskStatus->created_at }}</td>
-                                @can(['delete', 'update'], $taskStatus)
-                                    <td>
+                                <td>
+                                    @can('delete', $taskStatus)
                                         <a data-confirm="@lang('app.pages.confirm')" data-method="delete" rel="nofollow"
-                                            class="text-red-600 hover:text-red-900"
-                                            href="{{ route('task_statuses.destroy', $taskStatus) }}">
+                                            class="delete-link" href="{{ route('task_statuses.destroy', $taskStatus) }}">
                                             @lang('app.pages.delete')
                                         </a>
-                                        <a class="text-blue-600 hover:text-blue-900"
-                                            href="{{ route('task_statuses.edit', $taskStatus) }}">
+                                    @endcan
+                                    @can('update', $taskStatus)
+                                        <a class="edit-link" href="{{ route('task_statuses.edit', $taskStatus) }}">
                                             @lang('app.pages.edit')
                                         </a>
-                                    </td>
-                                @endcan
+                                    @endcan
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
