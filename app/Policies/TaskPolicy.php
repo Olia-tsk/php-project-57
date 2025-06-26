@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Task;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class TaskPolicy
 {
@@ -19,12 +20,12 @@ class TaskPolicy
 
     public function create(User $user): bool
     {
-        return $user !== null;
+        return Auth::check();
     }
 
     public function update(User $user, Task $task): bool
     {
-        return $user !== null;
+        return Auth::check();
     }
 
     public function delete(User $user, Task $task): bool
