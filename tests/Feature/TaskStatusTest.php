@@ -117,7 +117,7 @@ class TaskStatusTest extends TestCase
 
         $response->assertRedirect(route('task_statuses.index'));
         $response->assertSessionHas('flash_message', __('app.flash.status.updated'));
-        $this->assertDatabaseHas('task_statuses', ['id' => $taskStatus->id, 'name' => 'Updated Status']);
+        $this->assertDatabaseHas('task_statuses', ['id' => $taskStatus->getKey(), 'name' => 'Updated Status']);
     }
 
     public function testUpdateFailsForUnauthenticatedUser()
@@ -128,7 +128,7 @@ class TaskStatusTest extends TestCase
         $response = $this->put(route('task_statuses.update', $taskStatus), $data);
 
         $response->assertStatus(403);
-        $this->assertDatabaseMissing('task_statuses', ['id' => $taskStatus->id, 'name' => 'Updated Status']);
+        $this->assertDatabaseMissing('task_statuses', ['id' => $taskStatus->getKey(), 'name' => 'Updated Status']);
     }
 
     public function testDestroyDeletesStatusWithoutTasks()
@@ -140,20 +140,20 @@ class TaskStatusTest extends TestCase
 
         $response->assertRedirect(route('task_statuses.index'));
         $response->assertSessionHas('flash_message', __('app.flash.status.deleted'));
-        $this->assertDatabaseMissing('task_statuses', ['id' => $taskStatus->id]);
+        $this->assertDatabaseMissing('task_statuses', ['id' => $taskStatus->getKey()]);
     }
 
     public function testDestroyFailsForStatusWithTasks()
     {
         $this->actingAs($this->user);
         $taskStatus = TaskStatus::factory()->create();
-        Task::factory()->create(['status_id' => $taskStatus->id]);
+        Task::factory()->create(['status_id' => $taskStatus->getKey()]);
 
         $response = $this->delete(route('task_statuses.destroy', $taskStatus));
 
         $response->assertRedirect(route('task_statuses.index'));
         $response->assertSessionHas('flash_message_error', __('app.flash.status.deleteFailed'));
-        $this->assertDatabaseHas('task_statuses', ['id' => $taskStatus->id]);
+        $this->assertDatabaseHas('task_statuses', ['id' => $taskStatus->getKey()]);
     }
 
     public function testDestroyFailsForUnauthenticatedUser()
@@ -163,6 +163,6 @@ class TaskStatusTest extends TestCase
         $response = $this->delete(route('task_statuses.destroy', $taskStatus));
 
         $response->assertStatus(403);
-        $this->assertDatabaseHas('task_statuses', ['id' => $taskStatus->id]);
+        $this->assertDatabaseHas('task_statuses', ['id' => $taskStatus->getKey()]);
     }
 }

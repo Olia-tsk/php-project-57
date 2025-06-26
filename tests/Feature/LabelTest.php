@@ -128,7 +128,7 @@ class LabelTest extends TestCase
         $response = $this->put(route('labels.update', $label), $data);
 
         $response->assertStatus(403);
-        $this->assertDatabaseMissing('labels', ['id' => $label->id, 'name' => 'Updated Label']);
+        $this->assertDatabaseMissing('labels', ['id' => $label->getKey(), 'name' => 'Updated Label']);
     }
 
     public function testDestroyDeletesLabelWithoutTasks()
@@ -140,7 +140,7 @@ class LabelTest extends TestCase
 
         $response->assertRedirect(route('labels.index'));
         $response->assertSessionHas('flash_message', __('app.flash.label.deleted'));
-        $this->assertDatabaseMissing('labels', ['id' => $label->id]);
+        $this->assertDatabaseMissing('labels', ['id' => $label->getKey()]);
     }
 
     public function testDestroyFailsForLabelWithTasks()
@@ -153,7 +153,7 @@ class LabelTest extends TestCase
 
         $response->assertRedirect(route('labels.index'));
         $response->assertSessionHas('flash_message_error', __('app.flash.label.deleteFailed'));
-        $this->assertDatabaseHas('labels', ['id' => $label->id]);
+        $this->assertDatabaseHas('labels', ['id' => $label->getKey()]);
     }
 
     public function testDestroyFailsForUnauthenticatedUser()
@@ -163,6 +163,6 @@ class LabelTest extends TestCase
         $response = $this->delete(route('labels.destroy', $label));
 
         $response->assertStatus(403);
-        $this->assertDatabaseHas('labels', ['id' => $label->id]);
+        $this->assertDatabaseHas('labels', ['id' => $label->getKey()]);
     }
 }
