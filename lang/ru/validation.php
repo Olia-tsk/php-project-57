@@ -3,7 +3,7 @@
 return [
     'required'  => 'Это обязательное поле',
     'unique'    => 'Поле с таким именем уже существует',
-    'confirmed' => ':attribute не совпадает.',
+    'confirmed' => ':attribute и подтверждение не совпадают.',
     'email' => ':attribute введён некорректно.',
 
     'min' => [
