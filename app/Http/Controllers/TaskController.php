@@ -20,12 +20,11 @@ class TaskController extends Controller
 
     public function index()
     {
-        $tasks = Task::with('status');
         $taskModel = new Task();
         $users = User::getUsers();
         $statuses = TaskStatus::getStatuses();
 
-        $tasks = QueryBuilder::for($tasks)
+        $tasks = QueryBuilder::for(Task::class)
             ->allowedFilters([
                 AllowedFilter::exact('status_id')->ignore(null),
                 AllowedFilter::exact('created_by_id')->ignore(null),
@@ -60,7 +59,7 @@ class TaskController extends Controller
         $task->fill($data);
         $task->save();
 
-        if (!empty($data['labels'])) {
+        if (array_key_exists('labels', $data) && count($data['labels']) > 0) {
             $task->labels()->sync($data['labels']);
         }
 
