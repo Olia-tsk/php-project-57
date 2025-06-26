@@ -117,7 +117,7 @@ class LabelTest extends TestCase
 
         $response->assertRedirect(route('labels.index'));
         $response->assertSessionHas('flash_message', __('app.flash.label.updated'));
-        $this->assertDatabaseHas('labels', ['id' => $label->id, 'name' => 'Updated Label']);
+        $this->assertDatabaseHas('labels', ['id' => $label->getKey(), 'name' => 'Updated Label']);
     }
 
     public function testUpdateFailsForUnauthenticatedUser()
