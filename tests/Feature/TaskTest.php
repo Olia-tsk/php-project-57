@@ -61,7 +61,6 @@ class TaskTest extends TestCase
             'name' => 'Test Task',
             'description' => 'This is a test task description',
             'status_id' => TaskStatus::factory()->create()->id,
-            'assigned_to_id' => User::factory()->create()->id,
         ];
 
         $this->mock(TaskStoreRequest::class, fn($mock) => $mock->shouldReceive('validated')->andReturn($data));
