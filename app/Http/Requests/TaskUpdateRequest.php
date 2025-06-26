@@ -4,13 +4,14 @@ namespace App\Http\Requests;
 
 use App\Models\Task;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class TaskUpdateRequest extends FormRequest
 {
     public function authorize(): bool
     {
         $task = $this->route('task') ?? new Task();
-        return $this->user() && $this->user()->can('update', $task);
+        return Auth::check() && $this->user()->can('update', $task);
     }
 
     public function rules(): array

@@ -4,13 +4,14 @@ namespace App\Http\Requests;
 
 use App\Models\Label;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class LabelStoreRequest extends FormRequest
 {
     public function authorize(): bool
     {
         $label = $this->route('label') ?? new Label();
-        return $this->user() && $this->user()->can('create', $label);
+        return Auth::check() && $this->user()->can('create', $label);
     }
 
     public function rules(): array
