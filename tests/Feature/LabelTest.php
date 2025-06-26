@@ -147,6 +147,7 @@ class LabelTest extends TestCase
     {
         $this->actingAs($this->user);
         $label = Label::factory()->create();
+        /** @var Task $task */
         $task = Task::factory()->create();
         $task->labels()->attach($label->getKey());
 
