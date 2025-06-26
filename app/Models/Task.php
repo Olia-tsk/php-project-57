@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $id
- * @method BelongsToMany labels()
+ * @method \Illuminate\Database\Eloquent\Relations\BelongsToMany labels()
  */
 class Task extends Model
 {
