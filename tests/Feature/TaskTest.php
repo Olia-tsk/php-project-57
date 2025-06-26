@@ -60,7 +60,7 @@ class TaskTest extends TestCase
         $data = [
             'name' => 'Test Task',
             'description' => 'This is a test task description',
-            'status_id' => TaskStatus::factory()->create()->id,
+            'status_id' => TaskStatus::factory()->create()->getKey(),
         ];
 
         $this->mock(TaskStoreRequest::class, fn($mock) => $mock->shouldReceive('validated')->andReturn($data));
@@ -89,7 +89,7 @@ class TaskTest extends TestCase
         $response->assertStatus(200)
             ->assertViewIs('tasks.show')
             ->assertViewHas('task', function ($viewTask) use ($task) {
-                return $viewTask->id === $task->id;
+                return $viewTask->id === $task->getKey();
             });
     }
 
@@ -126,7 +126,7 @@ class TaskTest extends TestCase
 
         $response->assertRedirect(route('tasks.index'));
         $response->assertSessionHas('flash_message', __('app.flash.task.updated'));
-        $this->assertDatabaseHas('tasks', ['id' => $task->id, 'name' => 'Updated Task']);
+        $this->assertDatabaseHas('tasks', ['id' => $task->getKey(), 'name' => 'Updated Task']);
     }
 
     public function testUpdateFailsForUnauthenticatedUser()
@@ -137,7 +137,7 @@ class TaskTest extends TestCase
         $response = $this->put(route('tasks.update', $task), $data);
 
         $response->assertStatus(403);
-        $this->assertDatabaseMissing('tasks', ['id' => $task->id, 'name' => 'Updated Task']);
+        $this->assertDatabaseMissing('tasks', ['id' => $task->getKey(), 'name' => 'Updated Task']);
     }
 
     public function testDestroy()
@@ -152,7 +152,7 @@ class TaskTest extends TestCase
 
         $response->assertRedirect(route('tasks.index'))
             ->assertSessionHas('flash_message', __('app.flash.task.deleted'));
-        $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
+        $this->assertDatabaseMissing('tasks', ['id' => $task->getKey()]);
     }
 
     public function testDestroyFailsForUnauthenticatedUser()
@@ -162,18 +162,18 @@ class TaskTest extends TestCase
         $response = $this->delete(route('tasks.destroy', $task));
 
         $response->assertStatus(403);
-        $this->assertDatabaseHas('tasks', ['id' => $task->id]);
+        $this->assertDatabaseHas('tasks', ['id' => $task->getKey()]);
     }
 
     public function testDestroyFailsForNonCreator()
     {
         $otherUser = User::factory()->create();
-        $task = Task::factory()->create(['created_by_id' => $otherUser->id]);
+        $task = Task::factory()->create(['created_by_id' => $otherUser->getKey()]);
 
         $this->actingAs($this->user);
         $response = $this->delete(route('tasks.destroy', $task));
 
         $response->assertStatus(403);
-        $this->assertDatabaseHas('tasks', ['id' => $task->id]);
+        $this->assertDatabaseHas('tasks', ['id' => $task->getKey()]);
     }
 }
