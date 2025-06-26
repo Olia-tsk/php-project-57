@@ -147,7 +147,8 @@ class LabelTest extends TestCase
     {
         $this->actingAs($this->user);
         $label = Label::factory()->create();
-        Task::factory()->create()->labels()->attach($label);
+        $task = Task::factory()->create();
+        $task->labels()->attach($label->getKey());
 
         $response = $this->delete(route('labels.destroy', $label));
 
