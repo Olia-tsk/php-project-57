@@ -7,7 +7,7 @@ return [
     'email' => ':attribute введён некорректно.',
 
     'min' => [
-        'string' => ':attribute должен быть как минимум :min символов.',
+        'string' => ':attribute должен иметь длину не менее :min символов.',
     ],
     'attributes' => [
         'password' => 'Пароль',
