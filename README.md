@@ -74,13 +74,13 @@ DB_PASSWORD=your_db_password
 5. Установите зависимости:
 
 ```
-make install
+make setup
 ```
 
 6. Запустите сервер:
 
 ```
-make setup
+make start
 ```
 
 7. Откройте в браузере:
