@@ -24,6 +24,9 @@ jobs:
       - name: Generate app key
         run: php artisan key:generate
 
+      - name: Create SQLite database file
+        run: mkdir -p database && touch database/database.sqlite
+
       - name: Run migrations
         run: php artisan migrate --no-interaction
 
