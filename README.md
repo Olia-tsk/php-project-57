@@ -15,3 +15,76 @@
 ### Демо:
 
 Проект [Менеджер задач](https://php-project-57-13iz.onrender.com) опубликован с помощью сервиса Render.com
+
+### Технические требования:
+
+-   Composer 2.8.1
+-   npm >= 9.2
+-   node >= 18.19
+-   PHP >= 8.2
+-   Laravel 12
+-   PostgreSQL 16.9 (или SQLite для локального запуска)
+
+### Запуск:
+
+1. Склонируйте репозиторий:
+
+```
+git@github.com:Olia-tsk/php-project-57.git
+```
+
+2. Перейдите в директорию проекта:
+
+```
+cd php-project-57
+```
+
+3. Скопируйте файл окружения:
+
+```
+cp .env.example .env
+```
+
+4. Создайте базу данных:
+
+**Если используете SQLite:**
+
+Файл SQLite уже есть. Откройте файл .env и укажите параметры подключения к вашей базе данных.
+
+Пример:
+
+```
+DB_CONNECTION=sqlite
+DB_DATABASE=/полный/путь/к/database/database.sqlite
+```
+
+**для PostgreSQL**
+
+Создайте базу вручную и укажите параметры подключения к вашей базе данных:
+
+```
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=your_db_name
+DB_USERNAME=your_db_user
+DB_PASSWORD=your_db_password
+```
+
+5. Установите зависимости:
+
+```
+make install
+```
+
+6. Запустите сервер:
+
+```
+make setup
+```
+
+7. Откройте в браузере:
+
+```
+http://localhost:8000
+```
