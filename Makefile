@@ -1,5 +1,8 @@
 start:
 	php artisan serve --host 0.0.0.0
+
+start-frontend:
+	npm run dev
 	
 install:
 	composer install
