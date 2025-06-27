@@ -37,8 +37,7 @@ jobs:
         run: php artisan db:seed --no-interaction
 
       - name: Run tests with coverage
-        run: |
-          vendor/bin/phpunit --coverage-clover=coverage.xml
+        run: vendor/bin/phpunit --coverage-cobertura=coverage.xml
 
       - name: Upload coverage to qlty.sh
         uses: qltysh/qlty-action/coverage@v1
