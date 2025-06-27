@@ -18,6 +18,9 @@ jobs:
           composer install --no-interaction --prefer-dist
           npm install
 
+      - name: Copy .env.example to .env
+        run: cp .env.example .env
+
       - name: Generate app key
         run: php artisan key:generate
 
