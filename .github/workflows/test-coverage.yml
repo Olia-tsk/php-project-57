@@ -18,6 +18,15 @@ jobs:
           composer install --no-interaction --prefer-dist
           npm install
 
+      - name: Generate app key
+        run: php artisan key:generate
+
+      - name: Run migrations
+        run: php artisan migrate --no-interaction
+
+      - name: Seed database
+        run: php artisan db:seed --no-interaction
+
       - name: Run tests with coverage
         run: |
           vendor/bin/phpunit --coverage-clover=coverage.xml
