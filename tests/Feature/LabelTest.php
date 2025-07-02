@@ -63,7 +63,7 @@ class LabelTest extends TestCase
         $response = $this->post(route('labels.store'), $data);
 
         $response->assertRedirect(route('labels.index'));
-        $response->assertSessionHas('flash_message', __('app.flash.label.created'));
+        $response->assertSessionHas('success', __('app.flash.label.created'));
         $this->assertDatabaseHas('labels', ['name' => 'Test Label']);
     }
 
@@ -116,7 +116,7 @@ class LabelTest extends TestCase
         $response = $this->put(route('labels.update', $label), $data);
 
         $response->assertRedirect(route('labels.index'));
-        $response->assertSessionHas('flash_message', __('app.flash.label.updated'));
+        $response->assertSessionHas('success', __('app.flash.label.updated'));
         $this->assertDatabaseHas('labels', ['id' => $label->getKey(), 'name' => 'Updated Label']);
     }
 
@@ -139,7 +139,7 @@ class LabelTest extends TestCase
         $response = $this->delete(route('labels.destroy', $label));
 
         $response->assertRedirect(route('labels.index'));
-        $response->assertSessionHas('flash_message', __('app.flash.label.deleted'));
+        $response->assertSessionHas('success', __('app.flash.label.deleted'));
         $this->assertDatabaseMissing('labels', ['id' => $label->getKey()]);
     }
 
@@ -154,7 +154,7 @@ class LabelTest extends TestCase
         $response = $this->delete(route('labels.destroy', $label));
 
         $response->assertRedirect(route('labels.index'));
-        $response->assertSessionHas('flash_message_error', __('app.flash.label.deleteFailed'));
+        $response->assertSessionHas('error', __('app.flash.label.deleteFailed'));
         $this->assertDatabaseHas('labels', ['id' => $label->getKey()]);
     }
 

@@ -63,7 +63,7 @@ class TaskStatusTest extends TestCase
         $response = $this->post(route('task_statuses.store'), $data);
 
         $response->assertRedirect(route('task_statuses.index'));
-        $response->assertSessionHas('flash_message', __('app.flash.status.created'));
+        $response->assertSessionHas('success', __('app.flash.status.created'));
         $this->assertDatabaseHas('task_statuses', ['name' => 'Test Status']);
     }
 
@@ -116,7 +116,7 @@ class TaskStatusTest extends TestCase
         $response = $this->put(route('task_statuses.update', $taskStatus), $data);
 
         $response->assertRedirect(route('task_statuses.index'));
-        $response->assertSessionHas('flash_message', __('app.flash.status.updated'));
+        $response->assertSessionHas('success', __('app.flash.status.updated'));
         $this->assertDatabaseHas('task_statuses', ['id' => $taskStatus->getKey(), 'name' => 'Updated Status']);
     }
 
@@ -139,7 +139,7 @@ class TaskStatusTest extends TestCase
         $response = $this->delete(route('task_statuses.destroy', $taskStatus));
 
         $response->assertRedirect(route('task_statuses.index'));
-        $response->assertSessionHas('flash_message', __('app.flash.status.deleted'));
+        $response->assertSessionHas('success', __('app.flash.status.deleted'));
         $this->assertDatabaseMissing('task_statuses', ['id' => $taskStatus->getKey()]);
     }
 
@@ -152,7 +152,7 @@ class TaskStatusTest extends TestCase
         $response = $this->delete(route('task_statuses.destroy', $taskStatus));
 
         $response->assertRedirect(route('task_statuses.index'));
-        $response->assertSessionHas('flash_message_error', __('app.flash.status.deleteFailed'));
+        $response->assertSessionHas('error', __('app.flash.status.deleteFailed'));
         $this->assertDatabaseHas('task_statuses', ['id' => $taskStatus->getKey()]);
     }
 

@@ -63,7 +63,7 @@ class TaskController extends Controller
             $task->labels()->sync($data['labels']);
         }
 
-        Session::flash('flash_message', __('app.flash.task.created'));
+        Session::flash('success', __('app.flash.task.created'));
 
         return redirect()->route('tasks.index');
     }
@@ -94,7 +94,7 @@ class TaskController extends Controller
 
         $task->labels()->sync($data['labels'] ?? []);
 
-        Session::flash('flash_message', __('app.flash.task.updated'));
+        Session::flash('success', __('app.flash.task.updated'));
 
         return redirect()->route('tasks.index');
     }
@@ -104,7 +104,7 @@ class TaskController extends Controller
         $this->authorize('delete', $task);
 
         $task->delete();
-        Session::flash('flash_message', __('app.flash.task.deleted'));
+        Session::flash('success', __('app.flash.task.deleted'));
 
         return redirect()->route('tasks.index');
     }

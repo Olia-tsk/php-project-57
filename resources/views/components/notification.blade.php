@@ -1,4 +1,4 @@
-@if (Session::has('flash_message'))
+@if (Session::has('success'))
     <div class="p-4 bg-green-50 rounded-md alert alert-success" role="alert">
         <div class="flex">
             <div class="shrink-0">
@@ -11,14 +11,14 @@
             </div>
             <div class="ml-3">
                 <h3 class="text-sm font-medium text-[#026630]">
-                    {{ Session::get('flash_message') }}
+                    {{ Session::get('success') }}
                 </h3>
             </div>
         </div>
     </div>
 @endif
 
-@if (Session::has('flash_message_error'))
+@if (Session::has('error'))
     <div class="p-4 bg-red-50 rounded-md">
         <div class="flex">
             <div class="shrink-0">
@@ -31,7 +31,7 @@
             </div>
             <div class="ml-3">
                 <h3 class="text-sm font-medium text-[#9f0712]">
-                    {{ Session::get('flash_message_error') }}
+                    {{ Session::get('error') }}
                 </h3>
             </div>
         </div>
