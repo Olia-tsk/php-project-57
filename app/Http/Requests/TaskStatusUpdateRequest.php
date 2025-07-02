@@ -24,4 +24,11 @@ class TaskStatusUpdateRequest extends FormRequest
             ],
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.unique' => __('validation.unique_status'),
+        ];
+    }
 }

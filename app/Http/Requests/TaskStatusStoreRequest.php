@@ -17,14 +17,14 @@ class TaskStatusStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:task_statuses',
+            'name' => 'required|unique:task_statuses,name',
         ];
     }
 
     public function messages()
     {
         return [
-            'name.unique' => 'Статус с таким именем уже существует',
+            'name.unique' => __('validation.unique_status'),
         ];
     }
 }

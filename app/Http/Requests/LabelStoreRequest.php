@@ -17,7 +17,7 @@ class LabelStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:labels',
+            'name' => 'required|unique:labels,name',
             'description' => 'nullable',
         ];
     }
@@ -25,7 +25,7 @@ class LabelStoreRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.unique' => 'Метка с таким именем уже существует',
+            'name.unique' => __('validation.unique_label'),
         ];
     }
 }

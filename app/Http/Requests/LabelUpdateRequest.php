@@ -25,4 +25,11 @@ class LabelUpdateRequest extends FormRequest
             'description' => 'nullable',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.unique' => __('validation.unique_label'),
+        ];
+    }
 }
