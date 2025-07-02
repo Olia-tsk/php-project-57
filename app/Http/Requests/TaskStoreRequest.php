@@ -10,7 +10,7 @@ class TaskStoreRequest extends FormRequest
     public function authorize(): bool
     {
         $task = $this->route('task') ?? new Task();
-        return $this->user()?->can('create', $task);
+        return $this->user() && $this->user()->can('create', $task);
     }
 
     public function rules(): array

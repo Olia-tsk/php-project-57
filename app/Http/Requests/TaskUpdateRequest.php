@@ -10,7 +10,7 @@ class TaskUpdateRequest extends FormRequest
     public function authorize(): bool
     {
         $task = $this->route('task') ?? new Task();
-        return $this->user()?->can('update', $task);
+        return $this->user() && $this->user()->can('update', $task);
     }
 
     public function rules(): array

@@ -10,7 +10,7 @@ class LabelStoreRequest extends FormRequest
     public function authorize(): bool
     {
         $label = $this->route('label') ?? new Label();
-        return $this->user()?->can('create', $label);
+        return $this->user() && $this->user()->can('create', $label);
     }
 
     public function rules(): array
