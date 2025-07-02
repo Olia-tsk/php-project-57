@@ -37,7 +37,7 @@ class TaskStatusController extends Controller
 
         Session::flash('success', __('app.flash.status.created'));
 
-        return redirect()->route('task_statuses.index');
+        return to_route('task_statuses.index');
     }
 
     public function show(TaskStatus $taskStatus)
@@ -60,7 +60,7 @@ class TaskStatusController extends Controller
 
         Session::flash('success', __('app.flash.status.updated'));
 
-        return redirect()->route('task_statuses.index');
+        return to_route('task_statuses.index');
     }
 
     public function destroy(TaskStatus $taskStatus)
@@ -69,11 +69,11 @@ class TaskStatusController extends Controller
 
         if ($taskStatus->tasks()->exists()) {
             Session::flash('error', __('app.flash.status.deleteFailed'));
-            return redirect()->route('task_statuses.index');
+            return to_route('task_statuses.index');
         }
 
         $taskStatus->delete();
         Session::flash('success', __('app.flash.status.deleted'));
-        return redirect()->route('task_statuses.index');
+        return to_route('task_statuses.index');
     }
 }

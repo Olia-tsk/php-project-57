@@ -37,7 +37,7 @@ class LabelController extends Controller
 
         Session::flash('success', __('app.flash.label.created'));
 
-        return redirect()->route('labels.index');
+        return to_route('labels.index');
     }
 
     public function show(Label $label)
@@ -60,7 +60,7 @@ class LabelController extends Controller
 
         Session::flash('success', __('app.flash.label.updated'));
 
-        return redirect()->route('labels.index');
+        return to_route('labels.index');
     }
 
     public function destroy(Label $label)
@@ -69,13 +69,13 @@ class LabelController extends Controller
 
         if ($label->tasks()->exists()) {
             Session::flash('error', __('app.flash.label.deleteFailed'));
-            return redirect()->route('labels.index');
+            return to_route('labels.index');
         }
 
         $label->delete();
 
         Session::flash('success', __('app.flash.label.deleted'));
 
-        return redirect()->route('labels.index');
+        return to_route('labels.index');
     }
 }

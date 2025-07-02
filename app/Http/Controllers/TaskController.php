@@ -65,7 +65,7 @@ class TaskController extends Controller
 
         Session::flash('success', __('app.flash.task.created'));
 
-        return redirect()->route('tasks.index');
+        return to_route('tasks.index');
     }
 
     public function show(Task $task)
@@ -96,7 +96,7 @@ class TaskController extends Controller
 
         Session::flash('success', __('app.flash.task.updated'));
 
-        return redirect()->route('tasks.index');
+        return to_route('tasks.index');
     }
 
     public function destroy(Task $task)
@@ -106,6 +106,6 @@ class TaskController extends Controller
         $task->delete();
         Session::flash('success', __('app.flash.task.deleted'));
 
-        return redirect()->route('tasks.index');
+        return to_route('tasks.index');
     }
 }
