@@ -4,14 +4,13 @@ namespace App\Http\Requests;
 
 use App\Models\TaskStatus;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class TaskStatusStoreRequest extends FormRequest
 {
     public function authorize(): bool
     {
         $taskStatus = $this->route('task_status') ?? new TaskStatus();
-        return Auth::check() && $this->user()->can('create', $taskStatus);
+        return $this->user()?->can('create', $taskStatus);
     }
 
     public function rules(): array
