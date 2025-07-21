@@ -52,16 +52,12 @@ class TaskController extends Controller
 
     public function store(TaskStoreRequest $request)
     {
+
         $data = $request->validated();
-        $data['created_by_id'] = Auth::id();
 
-        $task = new Task();
-        $task->fill($data);
-        $task->save();
+        $task = Auth::user()->tasks()->create($data);
 
-        if (array_key_exists('labels', $data) && count($data['labels']) > 0) {
-            $task->labels()->sync($data['labels']);
-        }
+        $task->labels()->sync($data['labels'] ?? []);
 
         Session::flash('success', __('app.flash.task.created'));
 
