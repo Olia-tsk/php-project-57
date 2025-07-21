@@ -24,6 +24,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'created_by_id');
+    }
+
     public static function getUsers()
     {
         return self::pluck('name', 'id')->toArray();
