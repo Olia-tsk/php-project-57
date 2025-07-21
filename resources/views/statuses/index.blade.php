@@ -31,7 +31,7 @@
                             <tr class="border-b border-dashed text-left">
                                 <td>{{ $taskStatus->id }}</td>
                                 <td>{{ $taskStatus->name }}</td>
-                                <td>{{ $taskStatus->created_at }}</td>
+                                <td>{{ $taskStatus->formattedCreatedAt }}</td>
                                 <td>
                                     @can('delete', $taskStatus)
                                         <a data-confirm="@lang('app.pages.confirm')" data-method="delete" rel="nofollow"

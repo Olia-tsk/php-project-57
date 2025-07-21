@@ -33,7 +33,7 @@
                                 <td>{{ $label->id }}</td>
                                 <td>{{ $label->name }}</td>
                                 <td>{{ $label->description }}</td>
-                                <td>{{ $label->created_at }}</td>
+                                <td>{{ $label->formattedCreatedAt }}</td>
                                 <td>
                                     @can('delete', $label)
                                         <a data-confirm="@lang('app.pages.confirm')" data-method="delete" class="delete-link"

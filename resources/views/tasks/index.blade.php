@@ -64,7 +64,7 @@
                                 <td>
                                     {{ $task->assigned_to_id ? $task->assignedTo->name : __('app.pages.executorNotSpecified') }}
                                 </td>
-                                <td>{{ $task->created_at }}</td>
+                                    <td>{{ $task->formattedCreatedAt }}</td>
                                 <td>
                                     @can('delete', $task)
                                         <a data-confirm="@lang('app.pages.confirm')" data-method="delete" rel="nofollow"
