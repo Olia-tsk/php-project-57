@@ -20,9 +20,9 @@ class Label extends Model
         return $this->belongsToMany(Task::class);
     }
 
-    public function getCreatedAtAttribute($date): string
+    public function getFormattedCreatedAtAttribute(): string
     {
-        return $date ? Carbon::parse($date)->format('d.m.Y') : '';
+        return $this->created_at ? \Carbon\Carbon::parse($this->created_at)->format('d.m.Y') : '';
     }
 
     public static function getLabels()

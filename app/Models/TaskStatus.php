@@ -20,9 +20,9 @@ class TaskStatus extends Model
         return $this->hasMany(Task::class, 'status_id');
     }
 
-    public function getCreatedAtAttribute($date): string
+    public function getFormattedCreatedAtAttribute(): string
     {
-        return $date ? Carbon::parse($date)->format('d.m.Y') : '';
+        return $this->created_at ? \Carbon\Carbon::parse($this->created_at)->format('d.m.Y') : '';
     }
 
     public static function getStatuses()

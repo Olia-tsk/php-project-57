@@ -17,9 +17,9 @@ class Task extends Model
 
     protected $fillable = ['name', 'description', 'status_id', 'created_by_id', 'assigned_to_id'];
 
-    public function getCreatedAtAttribute($date): string
+    public function getFormattedCreatedAtAttribute(): string
     {
-        return $date ? Carbon::parse($date)->format('d.m.Y') : '';
+        return $this->created_at ? \Carbon\Carbon::parse($this->created_at)->format('d.m.Y') : '';
     }
 
     public function status()
