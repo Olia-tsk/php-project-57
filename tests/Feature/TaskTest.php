@@ -59,8 +59,8 @@ class TaskTest extends TestCase
 
         $data = [
             'name' => 'Test Task',
-            'description' => 'This is a test task description',
             'status_id' => TaskStatus::factory()->create()->getKey(),
+            'created_by_id' => $this->user->id,
         ];
 
         $this->mock(TaskStoreRequest::class, fn($mock) => $mock->shouldReceive('validated')->andReturn($data));
