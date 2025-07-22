@@ -4,7 +4,7 @@
 
             <h1 class="mb-5 page-title">@lang('app.pages.createStatus')</h1>
 
-            {{ html()->modelForm($taskStatus, 'POST', route('task_statuses.store'))->class('w-50')->open() }}
+            {{ html()->modelForm($taskStatus, 'POST', route('task_statuses.store'))->open() }}
 
             {{ html()->div()->class('flex flex-col')->open() }}
 
