@@ -1,38 +1,30 @@
 <x-app-layout>
     <section class="bg-white">
-        <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
-            <div class="grid col-span-full">
-                <h1 class="mb-5">@lang('app.pages.createLabel')</h1>
+        <div class="max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:py-16 lg:pt-28">
 
-                {{ html()->modelForm($label, 'POST', route('labels.store'))->class('w-50')->open() }}
+            <h1 class="mb-5 page-title">@lang('app.pages.createLabel')</h1>
 
-                {{ html()->div()->class('flex flex-col')->open() }}
-                <div>
-                    {{ html()->label(__('app.pages.name'), 'name') }}
-                </div>
+            {{ html()->modelForm($label, 'POST', route('labels.store'))->open() }}
 
-                <div class="mt-2">
-                    {{ html()->text('name')->class('form-field')->classIf($errors->has('name'), 'border-rose-600') }}
-                    @if ($errors->has('name'))
-                        <p class="text-rose-600">{{ $errors->first('name') }}</p>
-                    @endif
-                </div>
+            {{ html()->div()->class('flex flex-col')->open() }}
 
-                <div class="mt-2">
-                    {{ html()->label(__('app.pages.description'), 'description') }}
-                </div>
+            {{ html()->label(__('app.pages.name'), 'name') }}
 
-                <div class="mt-2">
-                    {{ html()->textarea('description')->class('form-field h-32') }}
-                </div>
+            {{ html()->text('name')->class('form-field')->classIf($errors->has('name'), 'border-rose-600') }}
+            @if ($errors->has('name'))
+                <p class="text-rose-600">{{ $errors->first('name') }}</p>
+            @endif
 
-                <div class="mt-2">
-                    {{ html()->submit(__('app.pages.create'))->class('blue-button') }}
-                </div>
-                {{ html()->div()->close() }}
+            {{ html()->label(__('app.pages.description'), 'description')->class('mt-2') }}
 
-                {{ html()->closeModelForm() }}
-            </div>
+            {{ html()->textarea('description')->class('form-field h-32') }}
+
+            {{ html()->submit(__('app.pages.create'))->class('blue-button mt-2') }}
+
+            {{ html()->div()->close() }}
+
+            {{ html()->closeModelForm() }}
+
         </div>
     </section>
 </x-app-layout>
