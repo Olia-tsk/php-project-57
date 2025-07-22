@@ -1,5 +1,5 @@
 @if (Session::has('success'))
-    <div class="p-4 bg-green-50 rounded-md alert alert-success" role="alert">
+    <div class="mb-5 p-4 bg-green-50 rounded-md alert alert-success" role="alert">
         <div class="flex">
             <div class="shrink-0">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
@@ -19,7 +19,7 @@
 @endif
 
 @if (Session::has('error'))
-    <div class="p-4 bg-red-50 rounded-md">
+    <div class="p-4 mb-5 bg-red-50 rounded-md">
         <div class="flex">
             <div class="shrink-0">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
