@@ -4,7 +4,7 @@
 
             <x-notification></x-notification>
 
-            <h1 class="mb-5">@lang('app.pages.statuses')</h1>
+            <h1 class="mb-5 page-title">@lang('app.pages.statuses')</h1>
 
             @can('create', $taskStatusModel)
                 <a href="{{ route('task_statuses.create') }}" class="blue-button mb-4">

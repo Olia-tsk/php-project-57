@@ -4,7 +4,7 @@
 
             <x-notification></x-notification>
 
-            <h1 class="mb-5">@lang('app.pages.tasks')</h1>
+            <h1 class="mb-5 page-title">@lang('app.pages.tasks')</h1>
 
             <div class="w-full flex items-center flex-wrap justify-between gap-y-4 mb-4">
                 <div class="max-[1010px]:w-full max-[1010px]:order-1">

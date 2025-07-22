@@ -4,7 +4,7 @@
 
             <x-notification></x-notification>
 
-            <h1 class="mb-5">@lang('app.pages.labels')</h1>
+            <h1 class="mb-5 page-title">@lang('app.pages.labels')</h1>
 
             @can('create', $labelModel)
                 <a href="{{ route('labels.create') }}" class="blue-button mb-4">
