@@ -24,6 +24,16 @@ h2 {
     font-size: 2rem;
 }
 
+td,
+th {
+    padding: 5px;
+}
+
+td {
+    vertical-align: top;
+}
+
+
 @layer components {
     .page-title {
         @apply md:text-5xl max-sm:text-3xl text-4xl;
