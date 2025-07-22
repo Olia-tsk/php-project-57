@@ -25,6 +25,9 @@ h2 {
 }
 
 @layer components {
+    .page-title {
+        @apply md:text-5xl max-sm:text-3xl text-4xl;
+    }
     .page-header {
         @apply flex flex-col gap-y-5 gap-x-6 max-sm:flex-row justify-between items-start flex-wrap;
     }
