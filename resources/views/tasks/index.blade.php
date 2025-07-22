@@ -4,7 +4,15 @@
 
             <x-notification></x-notification>
 
-            <h1 class="mb-5 page-title">@lang('app.pages.tasks')</h1>
+            <div class="mb-5 flex gap-y-5 gap-x-6 flex-row justify-between items-start flex-wrap">
+                <h1 class="page-title">@lang('app.pages.tasks')</h1>
+
+                @can('create', $taskModel)
+                    <a href="{{ route('tasks.create') }}" class="blue-button hidden max-lg:block">
+                        @lang('app.pages.createTask')
+                    </a>
+                @endcan
+            </div>
 
             <div class="w-full flex items-center flex-wrap justify-between gap-y-4 mb-4">
                 <div class="max-[1010px]:w-full max-[1010px]:order-1">
@@ -12,7 +20,7 @@
 
                     {{ html()->div()->class('flex flex-wrap gap-y-2 gap-x-4')->open() }}
 
-                    <div class="flex flex-wrap">
+                    <div class="flex flex-wrap gap-y-px gap-x-px">
                         {{ html()->select('filter[status_id]')->options(['' => __('app.pages.status')] + $statuses)->value(request()->input('filter.status_id', ''))->class('rounded border-gray-300 max-sm:w-full') }}
 
                         {{ html()->select('filter[created_by_id]')->options(['' => __('app.pages.author')] + $users)->value(request()->input('filter.created_by_id', ''))->class('rounded border-gray-300 max-sm:w-full') }}
@@ -28,7 +36,7 @@
                 </div>
 
                 @can('create', $taskModel)
-                    <a href="{{ route('tasks.create') }}" class="blue-button">
+                    <a href="{{ route('tasks.create') }}" class="blue-button max-lg:hidden">
                         @lang('app.pages.createTask')
                     </a>
                 @endcan

@@ -4,13 +4,15 @@
 
             <x-notification></x-notification>
 
-            <h1 class="mb-5 page-title">@lang('app.pages.statuses')</h1>
+            <div class="mb-4 page-header">
+                <h1 class="page-title">@lang('app.pages.statuses')</h1>
 
-            @can('create', $taskStatusModel)
-                <a href="{{ route('task_statuses.create') }}" class="blue-button mb-4">
-                    @lang('app.pages.createStatus')
-                </a>
-            @endcan
+                @can('create', $taskStatusModel)
+                    <a href="{{ route('task_statuses.create') }}" class="blue-button">
+                        @lang('app.pages.createStatus')
+                    </a>
+                @endcan
+            </div>
 
             <div class="overflow-x-auto">
                 <table class="w-full table-auto">

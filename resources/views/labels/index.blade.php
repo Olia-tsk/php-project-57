@@ -4,13 +4,15 @@
 
             <x-notification></x-notification>
 
-            <h1 class="mb-5 page-title">@lang('app.pages.labels')</h1>
+            <div class="mb-4 page-header">
+                <h1 class="page-title">@lang('app.pages.labels')</h1>
 
-            @can('create', $labelModel)
-                <a href="{{ route('labels.create') }}" class="blue-button mb-4">
-                    @lang('app.pages.createLabel')
-                </a>
-            @endcan
+                @can('create', $labelModel)
+                    <a href="{{ route('labels.create') }}" class="blue-button">
+                        @lang('app.pages.createLabel')
+                    </a>
+                @endcan
+            </div>
 
             <div class="overflow-x-auto">
                 <table class="w-full table-auto">
