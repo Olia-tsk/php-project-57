@@ -1,41 +1,41 @@
 <x-app-layout>
     <section class="bg-white">
-        <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
-            <div class="grid col-span-full">
+        <div class="max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:py-16 lg:pt-28">
 
-                <x-notification></x-notification>
+            <x-notification></x-notification>
 
-                <h1 class="mb-5">@lang('app.pages.tasks')</h1>
+            <h1 class="mb-5">@lang('app.pages.tasks')</h1>
 
-                <div class="w-full flex items-center">
-                    <div>
-                        {{ html()->form('GET', route('tasks.index'))->open() }}
+            <div class="w-full flex items-center flex-wrap justify-between gap-y-4 mb-4">
+                <div class="max-[1010px]:w-full max-[1010px]:order-1">
+                    {{ html()->form('GET', route('tasks.index'))->open() }}
 
-                        {{ html()->div()->class('flex')->open() }}
+                    {{ html()->div()->class('flex flex-wrap gap-y-2 gap-x-4')->open() }}
 
-                        {{ html()->select('filter[status_id]')->options(['' => __('app.pages.status')] + $statuses)->value(request()->input('filter.status_id', ''))->class('rounded border-gray-300') }}
+                    <div class="flex flex-wrap">
+                        {{ html()->select('filter[status_id]')->options(['' => __('app.pages.status')] + $statuses)->value(request()->input('filter.status_id', ''))->class('rounded border-gray-300 max-sm:w-full') }}
 
-                        {{ html()->select('filter[created_by_id]')->options(['' => __('app.pages.author')] + $users)->value(request()->input('filter.created_by_id', ''))->class('rounded border-gray-300') }}
+                        {{ html()->select('filter[created_by_id]')->options(['' => __('app.pages.author')] + $users)->value(request()->input('filter.created_by_id', ''))->class('rounded border-gray-300 max-sm:w-full') }}
 
-                        {{ html()->select('filter[assigned_to_id]')->options(['' => __('app.pages.executor')] + $users)->value(request()->input('filter.assigned_to_id', ''))->class('rounded border-gray-300') }}
-
-                        {{ html()->submit(__('app.pages.apply'))->class('blue-button ml-2') }}
-
-                        {{ html()->div()->close() }}
-
-                        {{ html()->form()->close() }}
+                        {{ html()->select('filter[assigned_to_id]')->options(['' => __('app.pages.executor')] + $users)->value(request()->input('filter.assigned_to_id', ''))->class('rounded border-gray-300 max-sm:w-full') }}
                     </div>
 
-                    @can('create', $taskModel)
-                        <div class="ml-auto">
-                            <a href="{{ route('tasks.create') }}" class="blue-button">
-                                @lang('app.pages.createTask')
-                            </a>
-                        </div>
-                    @endcan
+                    {{ html()->submit(__('app.pages.apply'))->class('blue-button') }}
+
+                    {{ html()->div()->close() }}
+
+                    {{ html()->form()->close() }}
                 </div>
 
-                <table class="mt-4">
+                @can('create', $taskModel)
+                    <a href="{{ route('tasks.create') }}" class="blue-button">
+                        @lang('app.pages.createTask')
+                    </a>
+                @endcan
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full table-auto">
                     <thead class="border-b-2 border-solid border-black text-left">
                         <tr>
                             <th>ID</th>
@@ -64,7 +64,7 @@
                                 <td>
                                     {{ $task->assigned_to_id ? $task->assignedTo->name : __('app.pages.executorNotSpecified') }}
                                 </td>
-                                    <td>{{ $task->formattedCreatedAt }}</td>
+                                <td>{{ $task->formattedCreatedAt }}</td>
                                 <td>
                                     @can('delete', $task)
                                         <a data-confirm="@lang('app.pages.confirm')" data-method="delete" rel="nofollow"
@@ -82,11 +82,12 @@
                         @endforeach
                     </tbody>
                 </table>
-
-                <div class="mt-4">
-                    {{ $tasks->links() }}
-                </div>
             </div>
+
+            <div class="mt-4">
+                {{ $tasks->links() }}
+            </div>
+
         </div>
     </section>
 </x-app-layout>

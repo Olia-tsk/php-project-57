@@ -1,21 +1,19 @@
 <x-app-layout>
     <section class="bg-white">
-        <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:pt-28">
-            <div class="grid col-span-full">
+        <div class="max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:py-16 lg:pt-28">
 
-                <x-notification></x-notification>
+            <x-notification></x-notification>
 
-                <h1 class="mb-5">@lang('app.pages.statuses')</h1>
+            <h1 class="mb-5">@lang('app.pages.statuses')</h1>
 
-                @can('create', $taskStatusModel)
-                    <div>
-                        <a href="{{ route('task_statuses.create') }}" class="blue-button">
-                            @lang('app.pages.createStatus')
-                        </a>
-                    </div>
-                @endcan
+            @can('create', $taskStatusModel)
+                <a href="{{ route('task_statuses.create') }}" class="blue-button mb-4">
+                    @lang('app.pages.createStatus')
+                </a>
+            @endcan
 
-                <table class="mt-4">
+            <div class="overflow-x-auto">
+                <table class="w-full table-auto">
                     <thead class="border-b-2 border-solid border-black text-left">
                         <tr>
                             <th>ID</th>
@@ -50,6 +48,7 @@
                     </tbody>
                 </table>
             </div>
+
         </div>
     </section>
 </x-app-layout>
