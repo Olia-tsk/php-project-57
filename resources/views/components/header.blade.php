@@ -94,7 +94,7 @@
                             @lang('app.labels')
                         </a>
                     </div>
-                    <div class="py-6">
+                    <div class="py-6 flex gap-1 flex-wrap">
                         @if (Route::has('login'))
                             @auth
                                 <form method="POST" action="{{ route('logout') }}">
@@ -109,7 +109,7 @@
                                     @lang('app.login')
                                 </a>
                                 @if (Route::has('register'))
-                                    <a href="{{ route('register') }}" class="blue-button ml-2">
+                                    <a href="{{ route('register') }}" class="blue-button">
                                         @lang('app.registration')
                                     </a>
                                 @endif
