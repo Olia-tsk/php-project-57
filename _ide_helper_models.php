@@ -16,8 +16,9 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property string|null $description
- * @property string $created_at
+ * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $formatted_created_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Task> $tasks
  * @property-read int|null $tasks_count
  * @method static \Database\Factories\LabelFactory factory($count = null, $state = [])
@@ -43,10 +44,11 @@ namespace App\Models{
  * @property int $status_id
  * @property int $created_by_id
  * @property int|null $assigned_to_id
- * @property string $created_at
+ * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User|null $assignedTo
  * @property-read \App\Models\User $createdBy
+ * @property-read string $formatted_created_at
  * @property-read int|null $labels_count
  * @property-read \App\Models\TaskStatus $status
  * @method static \Database\Factories\TaskFactory factory($count = null, $state = [])
@@ -69,8 +71,9 @@ namespace App\Models{
 /**
  * @property int $id
  * @property string $name
- * @property string $created_at
+ * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $formatted_created_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Task> $tasks
  * @property-read int|null $tasks_count
  * @method static \Database\Factories\TaskStatusFactory factory($count = null, $state = [])
